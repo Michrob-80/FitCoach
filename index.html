@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8"><title>FitCoach</title>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#121315"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="FitCoach"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="icon-192.png"><link rel="icon" href="icon-192.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0c0e;--card:#16181b;--card2:#202328;--tx:#f4f4f2;--mu:#8e949c;--ac:#ff6a00;--ac2:#ffb347;--ok:#4ade80;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);color-scheme:dark}
+*{box-sizing:inherit}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;color:var(--tx);font:16px/1.45 Barlow,system-ui,sans-serif;padding-bottom:110px;background:radial-gradient(800px 480px at 90% -8%,#ff6a0030,transparent 60%),radial-gradient(600px 400px at -10% 8%,#ff3d0018,transparent 60%),var(--bg);background-attachment:fixed}
+h1,h2,h3{font-family:'Barlow Condensed',Impact,sans-serif;margin:0 0 8px;letter-spacing:.02em;text-transform:uppercase}h1{font-size:38px;line-height:1}h2{font-size:24px}h3{font-size:19px}
+main{max-width:760px;margin:0 auto;padding:16px 14px}
+.card{background:linear-gradient(160deg,#1c1f23,#141619);border:1px solid #ffffff10;border-radius:20px;padding:16px;margin:0 0 14px;box-shadow:0 10px 28px #0007}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.sp{justify-content:space-between}
+button,select,input,textarea{font:inherit;color:var(--tx);background:var(--card2);border:1px solid #ffffff14;border-radius:12px;padding:9px 12px;min-height:44px}
+input[type=number]{width:100%}input[type=text],textarea,select{width:100%}
+button{cursor:pointer;transition:transform .12s}button:active{transform:scale(.96)}
+button.p{background:linear-gradient(135deg,var(--ac),var(--ac2));border:0;color:#160a00;font-weight:700;box-shadow:0 6px 20px #ff6a0055}
+button.s{min-height:36px;padding:4px 11px}button.on{border-color:var(--ac);color:var(--ac)}
+.big-btn{width:100%;font-size:19px;min-height:56px;margin-bottom:14px;font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;text-transform:uppercase}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--ac2)}
+.mu{color:var(--mu);font-size:14px}.sm{font-size:13px}.ac{color:var(--ac)}.warn{background:#3a2210;border-left:4px solid var(--ac);padding:9px 12px;border-radius:10px;margin:8px 0;font-size:14px}
+.big{font:700 42px 'Barlow Condensed',sans-serif;background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.g .card{padding:12px;margin:0 0 14px}
+.hero{display:flex;gap:16px;align-items:center;padding:20px;margin:0 0 14px;border-radius:24px;background:linear-gradient(135deg,#ff6a0033,#1a1c20 60%);border:1px solid #ff6a0044;box-shadow:0 12px 36px #ff6a0022}
+nav{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));background:#101215ee;backdrop-filter:blur(14px);border:1px solid #ffffff14;border-radius:24px;display:flex;padding:5px;z-index:5;max-width:740px;margin:0 auto}
+nav button{flex:1;border:0;background:none;font-size:9px;padding:5px 0;min-height:48px;color:var(--mu);border-radius:18px}nav button.on{color:#fff;background:linear-gradient(135deg,#ff6a0044,#ff6a001a)}nav i{display:block;font-style:normal;font-size:19px}
+.set{display:grid;grid-template-columns:26px 1fr 1fr 62px 46px;gap:6px;align-items:center;margin:6px 0}.set input{text-align:center;font-weight:600;font-size:18px}.set.d{opacity:.5}.set button{padding:4px}
+.mx.on{background:#ff6a0033}.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.cal div{min-height:54px;background:var(--card2);border-radius:10px;padding:3px 5px;font-size:12px;cursor:pointer}
+.cal .t{outline:2px solid var(--ac)}.cal .h{background:none;min-height:0;text-align:center;cursor:default;color:var(--mu)}
+.tag{font-size:10px;border-radius:5px;padding:1px 5px;display:inline-block}.dn{background:#14532d}.pl{background:#7c3a0c}.ms{background:#5b1d1d}.mv{background:#1e3a5f}
+.sc{overflow-x:auto}svg text{fill:var(--mu);font-size:10px}
+.wkr{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:6px 0 12px}.wk{background:var(--card2);border-radius:10px;padding:6px 3px;text-align:center;font-size:10px;min-height:58px;color:var(--mu);overflow:hidden}.wk b{display:block;font-size:13px;color:var(--tx)}.wk.on{background:linear-gradient(160deg,#ff6a0040,#ff6a0014);color:#ffd2ac}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;background:#ffffff0d;border-radius:20px;padding:2px 9px;margin:4px 4px 0 0}.chip i,.dot,.gh i{width:9px;height:9px;border-radius:50%;display:inline-block}.dot{margin-right:7px}
+.day.o{border-color:#ff6a0055}.ex{border-top:1px solid #ffffff12;padding:10px 0}.inp{display:grid;grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:8px;margin-top:6px}.inp label{font-size:11px;color:var(--mu)}
+.gh{display:flex;align-items:center;gap:9px;margin:22px 0 10px;border-bottom:1px solid #ffffff14;padding-bottom:6px}.gh i{width:12px;height:12px}.gh span{margin-left:auto;font-size:14px;color:var(--mu);font-family:Barlow}
+.exi{width:100%;max-height:220px;object-fit:cover;border-radius:12px;margin-top:8px}
+.pic{text-align:center;margin-top:8px}.gh svg{flex:none}.shop{display:flex;gap:10px;align-items:center;padding:7px 0;border-top:1px solid #ffffff10}.shop input{width:22px;min-height:22px;accent-color:#ff6a00}.shop span{flex:1}.shop.dn_{opacity:.4;text-decoration:line-through}.meal ul,.card ol,.card ul{margin:8px 0;padding-left:20px;color:var(--mu);font-size:14px}
+.fo{background:#ffffff08;border-radius:12px;padding:10px;margin:8px 0}
+.mv{display:flex;gap:10px;justify-content:center}.mv figure{margin:0;text-align:center;background:#ffffff0a;border-radius:14px;padding:8px 10px}.mv figcaption{font-size:11px;color:var(--mu)}.th{flex:none;background:#ffffff0a;border-radius:12px;padding:3px}
+.ar{align-self:center;color:var(--ac);font-size:28px;font-weight:700}.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:6px;margin:8px 0}.tile{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;min-height:0;font-size:11px;line-height:1.1}.tile.on{border-color:var(--ac);background:#ff6a0022}.xgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}.xc{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;padding:8px;height:auto;line-height:1.2}.xc.in{opacity:.45}.mv2{display:flex;gap:2px;background:#ffffff0a;border-radius:10px;padding:4px}
+</style></head><body><main id="app"></main><nav id="nav"></nav>
+<script>
+const MU=['Brust','Rücken','Schultern','Bizeps','Trizeps','Bauch','Unterer Rücken','Quadrizeps','Beinbeuger','Gesäß','Waden','Unterarme'];
+// Muskel;Deutsch;Englisch;Unterstützend;Gerät;Level;Sätze;Wdh;Technik~Fehler
+const RAW=`Brust;Bankdrücken;Barbell Bench Press;Trizeps, Schultern;Langhantel;2;4;6-10;Schulterblätter zusammen, Stange zur unteren Brust~Po hebt ab, Ellbogen 90° abgespreizt
+Brust;Schrägbankdrücken;Incline Bench Press;Schultern, Trizeps;Langhantel;2;3;8-10;Bank 30°, kontrolliert absenken~Bank zu steil
+Brust;Kurzhantel-Bankdrücken;Dumbbell Bench Press;Trizeps;Kurzhantel;1;3;8-12;Volle Dehnung, oben zusammenführen~Hanteln schwingen
+Brust;Brustpresse;Chest Press Machine;Trizeps;Maschine;1;3;10-12;Sitz so, dass Griffe auf Brusthöhe sind~Schultern hochgezogen
+Brust;Butterfly;Pec Deck Fly;Schultern;Maschine;1;3;12-15;Ellbogen leicht gebeugt~Zu schweres Gewicht
+Brust;Kabelzugüberzüge;Cable Pullover;Rücken;Kabel;2;3;12-15;Arme fast gestreckt, Zug aus der Schulter~Ellbogen beugen
+Brust;Liegestütze;Push-Up;Trizeps, Bauch;Körpergewicht;1;3;8-20;Körper bleibt eine Linie~Hohlkreuz
+Brust;Dips;Chest Dips;Trizeps;Körpergewicht;2;3;6-12;Oberkörper vorgeneigt~Zu tief absenken
+Rücken;Latzug;Lat Pulldown;Bizeps;Kabel;1;3;8-12;Stange zur oberen Brust, Brust raus~Mit Schwung ziehen
+Rücken;Rudern am Kabelzug;Seated Cable Row;Bizeps, Schultern;Kabel;1;3;10-12;Schulterblätter zusammenziehen~Rundrücken
+Rücken;T-Bar-Rudern;T-Bar Row;Bizeps;Langhantel;2;3;8-10;Rücken neutral, Ellbogen eng~Oberkörper pendelt
+Rücken;Langhantelrudern;Barbell Row;Bizeps, Unterer Rücken;Langhantel;3;4;6-10;Oberkörper ca. 45°, Stange zum Nabel~Zu aufrecht, Schwung
+Rücken;Klimmzüge;Pull-Up;Bizeps;Körpergewicht;3;3;5-10;Schultern zuerst nach unten~Halbe Wiederholungen
+Rücken;Kurzhantelrudern einarmig;One-Arm Dumbbell Row;Bizeps;Kurzhantel;1;3;10-12;Ellbogen nah am Körper~Rotation im Rumpf
+Rücken;Rudermaschine;Machine Row;Bizeps;Maschine;1;3;10-12;Brust am Polster~Schulter hochziehen
+Schultern;Schulterdrücken;Overhead Press;Trizeps;Kurzhantel;2;3;8-10;Rumpf anspannen~Hohlkreuz
+Schultern;Seitheben;Lateral Raise;Trapezmuskel;Kurzhantel;1;3;12-15;Bis Schulterhöhe, Ellbogen führt~Hanteln hochschwingen
+Schultern;Reverse Butterfly;Reverse Pec Deck;Rücken;Maschine;1;3;12-15;Arme auf Schulterhöhe~Zu viel Rücken
+Schultern;Frontheben;Front Raise;Brust;Kurzhantel;1;3;12-15;Bis Augenhöhe~Rücken kippt
+Schultern;Face Pulls;Face Pull;Rücken;Kabel;1;3;12-15;Seil zum Gesicht, Ellbogen hoch~Zu schwer
+Schultern;Maschinen-Schulterdrücken;Machine Shoulder Press;Trizeps;Maschine;1;3;10-12;Rücken am Polster~Ellbogen zu weit hinten
+Bizeps;Bizepscurls;Dumbbell Curl;Unterarme;Kurzhantel;1;3;10-12;Ellbogen am Körper~Schwung aus dem Rücken
+Bizeps;Hammercurls;Hammer Curl;Unterarme;Kurzhantel;1;3;10-12;Neutraler Griff~Ellbogen wandern
+Bizeps;SZ-Curls;EZ-Bar Curl;Unterarme;Langhantel;1;3;8-12;Handgelenke neutral~Hohlkreuz
+Bizeps;Kabelcurls;Cable Curl;;Kabel;1;3;10-15;Konstante Spannung~Zu schnell
+Trizeps;Trizepsdrücken am Kabel;Triceps Pushdown;;Kabel;1;3;10-15;Ellbogen fix an den Rippen~Schultern ziehen mit
+Trizeps;French Press;Skull Crusher;;Langhantel;2;3;8-12;Ellbogen zeigen zur Decke~Ellbogen weit auseinander
+Trizeps;Dips an der Bank;Bench Dips;Schultern;Körpergewicht;1;3;8-15;Rücken nah an der Bank~Schultern zu tief
+Trizeps;Überkopf-Trizepsstrecken;Overhead Triceps Extension;;Kurzhantel;1;3;10-12;Oberarme nah am Kopf~Hohlkreuz
+Bauch;Crunches;Crunch;;Körpergewicht;1;3;12-20;Rippen zum Becken~Nacken ziehen
+Bauch;Beinheben;Hanging Leg Raise;Hüftbeuger;Körpergewicht;2;3;8-15;Becken einrollen~Schwung
+Bauch;Planks;Plank;Schultern;Körpergewicht;1;3;30-60 s;Körper in einer Linie~Durchhängen
+Bauch;Kabel-Crunches;Cable Crunch;;Kabel;2;3;10-15;Wirbel für Wirbel einrollen~Aus der Hüfte ziehen
+Unterer Rücken;Hyperextensions;Back Extension;Gesäß, Beinbeuger;Körpergewicht;1;3;10-15;Oben nicht überstrecken~Hohlkreuz
+Unterer Rücken;Kreuzheben;Deadlift;Gesäß, Beinbeuger, Rücken;Langhantel;3;3;3-6;Stange nah am Körper, Rücken neutral~Rundrücken
+Unterer Rücken;Good Mornings;Good Morning;Beinbeuger;Langhantel;3;3;8-10;Hüfte nach hinten~Knie beugen zu stark
+Quadrizeps;Beinpresse;Leg Press;Gesäß;Maschine;1;4;8-12;Rücken flach, Knie nicht durchstrecken~Po hebt ab
+Quadrizeps;Kniebeuge;Barbell Back Squat;Gesäß, Unterer Rücken;Langhantel;3;4;5-8;Knie folgen den Zehen~Knie fallen nach innen
+Quadrizeps;Beinstrecker;Leg Extension;;Maschine;1;3;12-15;Oben kurz halten~Schwung
+Quadrizeps;Goblet-Kniebeuge;Goblet Squat;Gesäß;Kurzhantel;1;3;10-12;Gewicht vor der Brust~Fersen heben ab
+Quadrizeps;Ausfallschritte;Lunges;Gesäß;Kurzhantel;1;3;10-12;Aufrechter Oberkörper~Zu kurzer Schritt
+Beinbeuger;Beinbeuger liegend;Lying Leg Curl;Waden;Maschine;1;3;10-15;Hüfte bleibt am Polster~Hüfte hebt ab
+Beinbeuger;Rumänisches Kreuzheben;Romanian Deadlift;Gesäß, Unterer Rücken;Langhantel;2;3;8-12;Hüfte nach hinten, Beine fast gestreckt~Rundrücken
+Beinbeuger;Beinbeuger sitzend;Seated Leg Curl;;Maschine;1;3;10-15;Langsam zurück~Schwung
+Gesäß;Hip Thrust;Hip Thrust;Beinbeuger;Langhantel;2;3;8-12;Oben Gesäß anspannen~Hohlkreuz
+Gesäß;Hüftabduktion;Hip Abduction;;Maschine;1;3;12-20;Aufrechter Rücken~Zu schnell
+Gesäß;Hüftadduktion;Hip Adduction;;Maschine;1;3;12-20;Kontrollierte Bewegung~Zu schwer
+Gesäß;Glute Bridge;Glute Bridge;Beinbeuger;Körpergewicht;1;3;12-20;Fersen drücken~Hohlkreuz
+Waden;Wadenheben stehend;Standing Calf Raise;;Maschine;1;4;10-15;Volle Dehnung unten~Federn
+Waden;Wadenheben sitzend;Seated Calf Raise;;Maschine;1;3;12-20;Oben kurz halten~Halbe Bewegung
+Unterarme;Handgelenkcurls;Wrist Curl;;Kurzhantel;1;3;12-20;Unterarme aufgelegt~Zu schwer
+Unterarme;Farmer's Walk;Farmer's Walk;Rücken, Schultern;Kurzhantel;1;3;30-40 s;Aufrecht, Schultern tief~Hängende Schultern
+Brust;Kurzhantel-Schrägbankdrücken;Incline Dumbbell Press;Schultern, Trizeps;Kurzhantel;1;3;8-12;Bank 30°, Hanteln parallel~Zu steile Bank
+Brust;Fliegende mit Kurzhanteln;Dumbbell Fly;Schultern;Kurzhantel;2;3;10-15;Ellbogen leicht gebeugt, weiter Bogen~Zu tief, Schulterbelastung
+Brust;Kabel-Crossover;Cable Crossover;Schultern;Kabel;1;3;12-15;Arme führen in Bogen zusammen~Oberkörper pendelt
+Brust;Negativbankdrücken;Decline Bench Press;Trizeps;Langhantel;2;3;8-10;Stange zur unteren Brust~Zu schnell absenken
+Brust;Maschinen-Schrägpresse;Incline Machine Press;Schultern, Trizeps;Maschine;1;3;10-12;Griffe auf Oberbrusthöhe~Schultern hochgezogen
+Brust;Landmine Press;Landmine Press;Schultern, Trizeps;Langhantel;2;3;8-12;Diagonal nach oben drücken~Hohlkreuz
+Brust;Svend Press;Svend Press;Trizeps;Kurzhantel;1;3;12-15;Scheibe zusammendrücken~Spannung verlieren
+Brust;Liegestütze erhöht;Decline Push-Up;Schultern, Trizeps;Körpergewicht;1;3;8-15;Füße auf Bank, Körper gerade~Hängende Hüfte
+Brust;Brust-Dips-Maschine;Assisted Dip Machine;Trizeps;Maschine;1;3;8-12;Oberkörper leicht vor~Zu tief
+Rücken;Latzug enger Griff;Close-Grip Lat Pulldown;Bizeps;Kabel;1;3;8-12;Ellbogen an die Rippen~Rücken lehnt weit zurück
+Rücken;Geradarmiges Latziehen;Straight-Arm Pulldown;Brust;Kabel;1;3;12-15;Arme fast gestreckt, aus dem Latissimus~Beugt Ellbogen
+Rücken;Chest-Supported-Rudern;Chest-Supported Row;Bizeps;Kurzhantel;1;3;10-12;Brust fest auf Bank~Schwung
+Rücken;Meadows Row;Meadows Row;Bizeps;Langhantel;3;3;8-12;Ellbogen nach hinten oben~Hüfte dreht
+Rücken;Pullover mit Kurzhantel;Dumbbell Pullover;Brust;Kurzhantel;2;3;10-12;Arme leicht gebeugt, tiefe Dehnung~Hohlkreuz
+Rücken;Klimmzugmaschine;Assisted Pull-Up;Bizeps;Maschine;1;3;8-12;Brust zur Stange~Halbe Bewegung
+Rücken;Chin-Ups;Chin-Up;Bizeps;Körpergewicht;2;3;5-10;Untergriff, Brust zur Stange~Kinn vorstrecken
+Rücken;Schulterzucken;Barbell Shrug;Unterarme;Langhantel;1;3;10-15;Schultern gerade nach oben~Kreisen der Schultern
+Rücken;Australian Pull-Up;Inverted Row;Bizeps;Körpergewicht;1;3;8-15;Körper bleibt eine Linie~Hüfte hängt
+Rücken;Einarmiger Latzug am Kabel;Single-Arm Lat Pulldown;Bizeps;Kabel;1;3;10-12;Ellbogen zur Hüfte~Oberkörper dreht
+Rücken;Kabelrudern einarmig;Single-Arm Cable Row;Bizeps;Kabel;1;3;10-12;Schulterblatt bewusst bewegen~Rumpf rotiert
+Schultern;Arnold Press;Arnold Press;Trizeps;Kurzhantel;2;3;8-12;Drehung beim Drücken~Hohlkreuz
+Schultern;Kabel-Seitheben;Cable Lateral Raise;;Kabel;1;3;12-15;Konstante Spannung~Rumpf schaukelt
+Schultern;Seitheben an der Maschine;Machine Lateral Raise;;Maschine;1;3;12-15;Ellbogen führen~Schultern hochziehen
+Schultern;Reverse Fly mit Kurzhanteln;Rear Delt Dumbbell Fly;Rücken;Kurzhantel;1;3;12-15;Oberkörper vorgeneigt~Schwung
+Schultern;Aufrechtes Rudern;Upright Row;Trapezmuskel;Langhantel;2;3;10-12;Ellbogen führen, bis Brusthöhe~Zu hoch ziehen
+Schultern;Military Press;Military Press;Trizeps;Langhantel;2;4;6-10;Gesäß und Bauch anspannen~Hohlkreuz
+Schultern;Kabel-Frontheben;Cable Front Raise;Brust;Kabel;1;3;12-15;Bis Augenhöhe~Rücken kippt
+Schultern;Pike Push-Up;Pike Push-Up;Trizeps;Körpergewicht;2;3;6-12;Hüfte hoch, Kopf zwischen Armen~Kopf fällt vor
+Schultern;Kabel Reverse Fly;Cable Reverse Fly;Rücken;Kabel;1;3;12-15;Arme auf Schulterhöhe~Zu viel Schwung
+Schultern;Einarmiges Kabel-Schulterdrücken;Single-Arm Cable Press;Trizeps;Kabel;2;3;10-12;Rumpf stabil~Seitneigung
+Bizeps;Langhantelcurls;Barbell Curl;Unterarme;Langhantel;1;3;8-12;Ellbogen am Körper~Hohlkreuz
+Bizeps;Konzentrationscurls;Concentration Curl;;Kurzhantel;1;3;10-12;Ellbogen am Oberschenkel~Schwung
+Bizeps;Scott-Curls (Preacher Curls);Preacher Curl;;Langhantel;1;3;8-12;Oberarm fest aufgelegt~Unten überstrecken
+Bizeps;Schrägbankcurls;Incline Dumbbell Curl;;Kurzhantel;1;3;10-12;Arme hängen, volle Dehnung~Schultern nach vorne
+Bizeps;Spider Curls;Spider Curl;;Kurzhantel;2;3;10-12;Brust auf der Bank~Ellbogen wandern
+Bizeps;Zottman Curls;Zottman Curl;Unterarme;Kurzhantel;2;3;8-12;Oben drehen, unten Untergriff~Zu schnell
+Bizeps;Kabel-Hammercurls mit Seil;Rope Hammer Curl;Unterarme;Kabel;1;3;10-15;Ellbogen am Körper~Rumpf schaukelt
+Bizeps;Maschinen-Curls;Machine Curl;;Maschine;1;3;10-12;Sitz passend einstellen~Schulter hebt
+Trizeps;Enges Bankdrücken;Close-Grip Bench Press;Brust;Langhantel;2;3;6-10;Schulterbreiter Griff~Ellbogen weit abgespreizt
+Trizeps;Kickbacks;Triceps Kickback;;Kurzhantel;1;3;12-15;Oberarm parallel zum Boden~Schwung
+Trizeps;Kabel-Trizepsstrecken überkopf;Overhead Cable Extension;;Kabel;1;3;10-15;Ellbogen bleiben vorn~Hohlkreuz
+Trizeps;Einarmiges Trizepsdrücken;Single-Arm Pushdown;;Kabel;1;3;10-15;Ellbogen fix~Oberkörper dreht
+Trizeps;Trizepsmaschine;Triceps Machine;;Maschine;1;3;10-12;Ellbogen am Gerät~Schultern ziehen
+Trizeps;Diamond Push-Up;Diamond Push-Up;Brust;Körpergewicht;2;3;8-15;Hände eng unter der Brust~Ellbogen nach außen
+Trizeps;JM Press;JM Press;Brust;Langhantel;3;3;8-10;Stange zum Kinn führen~Zu schwer
+Trizeps;Dip-Maschine;Triceps Dip Machine;Brust;Maschine;1;3;8-12;Ellbogen eng~Zu tief
+Bauch;Russian Twist;Russian Twist;Schräge Bauchmuskeln;Körpergewicht;1;3;15-20;Aus dem Rumpf drehen~Nur Arme schwingen
+Bauch;Mountain Climbers;Mountain Climber;Hüftbeuger;Körpergewicht;1;3;30-40 s;Hüfte stabil~Po hoch
+Bauch;Fahrrad-Crunches;Bicycle Crunch;Schräge Bauchmuskeln;Körpergewicht;1;3;15-20;Ellbogen zum Gegenknie~Nacken ziehen
+Bauch;Ab-Wheel;Ab Wheel Rollout;Schultern;Körpergewicht;3;3;6-12;Rücken rund halten~Hohlkreuz
+Bauch;Seitstütz;Side Plank;Schräge Bauchmuskeln;Körpergewicht;1;3;20-40 s;Körper in einer Linie~Hüfte sinkt
+Bauch;Hängendes Knieheben;Hanging Knee Raise;Hüftbeuger;Körpergewicht;1;3;10-15;Becken einrollen~Schwung
+Bauch;Pallof Press;Pallof Press;Schräge Bauchmuskeln;Kabel;1;3;10-12;Rotation verhindern~Oberkörper dreht
+Bauch;Reverse Crunch;Reverse Crunch;;Körpergewicht;1;3;12-20;Becken vom Boden lösen~Schwung
+Bauch;Sit-Ups;Sit-Up;Hüftbeuger;Körpergewicht;1;3;12-20;Kontrolliert aufrollen~Füße reißen hoch
+Bauch;Dead Bug;Dead Bug;;Körpergewicht;1;3;10-12;Unterer Rücken am Boden~Hohlkreuz
+Bauch;Kabel-Holzhacker;Cable Woodchop;Schräge Bauchmuskeln;Kabel;2;3;10-12;Drehung aus dem Rumpf~Arme ziehen allein
+Unterer Rücken;Superman;Superman;Gesäß;Körpergewicht;1;3;10-15;Arme und Beine heben~Kopf überstreckt
+Unterer Rücken;Rückenstrecker-Maschine;Back Extension Machine;Gesäß;Maschine;1;3;10-15;Langsam und kontrolliert~Überstrecken
+Unterer Rücken;Bird Dog;Bird Dog;Gesäß;Körpergewicht;1;3;10-12;Rücken bleibt gerade~Hüfte dreht
+Unterer Rücken;Reverse Hyperextensions;Reverse Hyperextension;Gesäß, Beinbeuger;Maschine;2;3;10-15;Becken stabil~Schwung
+Quadrizeps;Frontkniebeuge;Front Squat;Gesäß;Langhantel;3;3;5-8;Ellbogen hoch, Rumpf aufrecht~Ellbogen sinken
+Quadrizeps;Bulgarian Split Squat;Bulgarian Split Squat;Gesäß;Kurzhantel;2;3;8-12;Aufrechter Oberkörper~Knie fällt nach innen
+Quadrizeps;Hackenschmidt-Kniebeuge;Hack Squat;Gesäß;Maschine;1;3;8-12;Fersen drücken~Knie nach innen
+Quadrizeps;Step-Ups;Step-Up;Gesäß;Kurzhantel;1;3;10-12;Mit dem Bein hochdrücken~Abstoßen vom Standbein
+Quadrizeps;Sissy Squat;Sissy Squat;;Körpergewicht;3;3;8-12;Knie nach vorn, Rücken gerade~Hohlkreuz
+Quadrizeps;Kniebeuge an der Multipresse;Smith Machine Squat;Gesäß;Maschine;1;3;8-12;Füße leicht vor Stange~Fersen heben
+Quadrizeps;Wandsitzen;Wall Sit;Gesäß;Körpergewicht;1;3;30-60 s;Knie 90°~Zu hoch sitzen
+Quadrizeps;Einbeinige Beinpresse;Single-Leg Press;Gesäß;Maschine;2;3;10-12;Kontrollierte Bewegung~Knie durchstrecken
+Quadrizeps;Box Jumps;Box Jump;Waden, Gesäß;Körpergewicht;2;3;5-8;Weich landen~Zu hohe Box
+Quadrizeps;Walking Lunges;Walking Lunge;Gesäß;Kurzhantel;1;3;10-12;Großer Schritt~Kurzer Schritt
+Beinbeuger;Nordic Curl;Nordic Hamstring Curl;Gesäß;Körpergewicht;3;3;4-8;Langsam absenken~Hüfte knickt ein
+Beinbeuger;Kurzhantel-Kreuzheben mit gestreckten Beinen;Stiff-Leg Dumbbell Deadlift;Gesäß;Kurzhantel;1;3;10-12;Rücken neutral~Rundrücken
+Beinbeuger;Einbeiniges Rumänisches Kreuzheben;Single-Leg RDL;Gesäß;Kurzhantel;2;3;8-12;Hüfte bleibt gerade~Hüfte dreht auf
+Beinbeuger;Kabel-Beinbeuger;Cable Leg Curl;;Kabel;1;3;10-15;Becken stabil~Schwung
+Beinbeuger;Glute-Ham-Raise;Glute-Ham Raise;Gesäß;Körpergewicht;3;3;6-10;Hüfte gestreckt~Hohlkreuz
+Beinbeuger;Slider Leg Curl;Slider Leg Curl;Gesäß;Körpergewicht;2;3;8-12;Hüfte oben halten~Hüfte sinkt
+Beinbeuger;Beinbeuger stehend an der Maschine;Standing Leg Curl;;Maschine;1;3;10-15;Oberkörper ruhig~Schwung
+Gesäß;Kabel-Kickbacks;Cable Glute Kickback;Beinbeuger;Kabel;1;3;12-15;Hüfte stabil~Hohlkreuz
+Gesäß;Sumo-Kniebeuge;Sumo Squat;Quadrizeps;Kurzhantel;1;3;10-12;Knie folgen den Zehen~Knie nach innen
+Gesäß;Sumo-Kreuzheben;Sumo Deadlift;Beinbeuger, Quadrizeps;Langhantel;3;3;4-8;Brust hoch, Hüfte nach unten~Rundrücken
+Gesäß;Hüftstreckung an der Maschine;Glute Drive Machine;Beinbeuger;Maschine;1;3;10-15;Oben anspannen~Hohlkreuz
+Gesäß;Donkey Kicks;Donkey Kick;;Körpergewicht;1;3;12-20;Becken stabil~Rotation
+Gesäß;Seitliche Ausfallschritte;Lateral Lunge;Quadrizeps;Kurzhantel;1;3;10-12;Hüfte nach hinten~Knie nach innen
+Gesäß;Clamshells;Clamshell;;Körpergewicht;1;3;15-20;Becken nicht kippen~Rotation
+Gesäß;Kettlebell Swing;Kettlebell Swing;Beinbeuger, Unterer Rücken;Kurzhantel;2;3;10-15;Hüfte schnellt nach vorn~Mit Armen heben
+Gesäß;Einbeiniger Hip Thrust;Single-Leg Hip Thrust;Beinbeuger;Körpergewicht;2;3;8-12;Becken waagerecht~Hohlkreuz
+Waden;Wadenheben an der Beinpresse;Leg Press Calf Raise;;Maschine;1;3;12-20;Volle Dehnung~Federn
+Waden;Einbeiniges Wadenheben;Single-Leg Calf Raise;;Körpergewicht;1;3;10-15;Langsam und vollständig~Wippen
+Waden;Wadenheben an der Multipresse;Smith Machine Calf Raise;;Maschine;1;3;10-15;Ballen auf Erhöhung~Kurzer Weg
+Waden;Eselwaden;Donkey Calf Raise;;Körpergewicht;2;3;12-20;Hüfte gebeugt~Halbe Bewegung
+Waden;Schienbeinheben;Tibialis Raise;;Körpergewicht;1;3;15-20;Zehen anheben~Zu schnell
+Waden;Seilspringen;Jump Rope;Quadrizeps;Körpergewicht;1;3;30-60 s;Aus den Fußgelenken federn~Zu hohe Sprünge
+Unterarme;Reverse Curls;Reverse Curl;Bizeps;Langhantel;1;3;10-12;Obergriff, Ellbogen fest~Schwung
+Unterarme;Handgelenkstrecker;Reverse Wrist Curl;;Kurzhantel;1;3;12-20;Unterarme aufgelegt~Zu schwer
+Unterarme;Dead Hang;Dead Hang;Rücken;Körpergewicht;1;3;20-45 s;Schultern aktiv~Passives Hängen
+Unterarme;Plate Pinch;Plate Pinch;;Kurzhantel;1;3;20-40 s;Scheiben mit Fingern halten~Zu schwere Scheibe
+Unterarme;Handtrainer;Hand Gripper;;Körpergewicht;1;3;10-15;Volle Schließbewegung~Nur halb schließen
+Brust;Multipresse-Bankdrücken;Smith Machine Bench Press;Trizeps, Schultern;Multipresse;1;3;8-12;Bank mittig, Stange zur unteren Brust~Bank zu weit vorn
+Brust;Multipresse-Schrägbankdrücken;Smith Machine Incline Press;Schultern, Trizeps;Multipresse;1;3;8-12;Bank 30°, Stange zur Oberbrust~Zu steile Bank
+Schultern;Multipresse-Schulterdrücken;Smith Machine Shoulder Press;Trizeps;Multipresse;1;3;8-12;Sitzend, Stange vor dem Gesicht absenken~Hohlkreuz
+Cardio;Laufband;Treadmill;Beine, Herz-Kreislauf;Cardio;1;1;15-30;Aufrechter Lauf, leichte Steigung~Am Geländer festhalten
+Cardio;Stairmaster;Stair Climber;Gesäß, Quadrizeps;Cardio;1;1;10-20;Aufrecht, ganzer Fuß auf der Stufe~Auf Handläufe stützen
+Cardio;Crosstrainer;Elliptical Trainer;Beine, Arme;Cardio;1;1;15-30;Gleichmäßiger Rhythmus~Gebeugter Rücken
+Cardio;Fahrrad-Ergometer;Stationary Bike;Quadrizeps;Cardio;1;1;15-40;Sattel auf Hüfthöhe~Sattel zu niedrig
+Cardio;Rudergerät;Rowing Machine;Rücken, Beine;Cardio;2;1;10-20;Beine, dann Rücken, dann Arme~Rundrücken
+Cardio;Intervalllauf;Treadmill Intervals;Beine;Cardio;2;1;10-20;30 s schnell, 90 s locker~Zu schnell gestartet
+Bizeps;Preacher-Curl mit Kurzhantel (einarmig);One-Arm Dumbbell Preacher Curl;;Kurzhantel;1;3;10-12;Oberarm fest aufs Polster~Unten überstrecken
+Bizeps;Schrägbank-Hammercurls;Incline Hammer Curl;Unterarme;Kurzhantel;1;3;10-12;Neutraler Griff, Arme hängen~Schultern nach vorn
+Bizeps;Drag Curls;Drag Curl;;Langhantel;2;3;8-12;Stange am Körper nach oben ziehen~Ellbogen schwingen nach vorn
+Bizeps;Bayesian Curls am Kabel;Bayesian Cable Curl;;Kabel;2;3;10-15;Arm hinter dem Körper, volle Dehnung~Rumpf lehnt nach vorn
+Bizeps;Kabel-Preacher-Curls;Cable Preacher Curl;;Kabel;1;3;10-15;Oberarm aufgelegt~Schultern ziehen mit
+Bizeps;21er-Curls;21s Curl;Unterarme;Langhantel;2;2;21;7 untere, 7 obere, 7 volle Wdh~Zu schweres Gewicht
+Trizeps;Tate Press;Tate Press;;Kurzhantel;2;3;10-12;Ellbogen zeigen nach vorn~Hantel fällt zur Schulter
+Trizeps;Trizepsdrücken mit V-Stange;V-Bar Pushdown;;Kabel;1;3;10-15;Ellbogen fix~Schultern kreisen
+Trizeps;Trizepsdrücken im Untergriff;Reverse-Grip Pushdown;Unterarme;Kabel;2;3;10-15;Handflächen nach oben~Ellbogen wandern
+Trizeps;Einarmige Trizeps-Kickbacks am Kabel;Single-Arm Cable Kickback;;Kabel;1;3;12-15;Oberarm parallel zum Boden~Schwung
+Brust;Kabel-Fly von unten;Low-to-High Cable Fly;Schultern;Kabel;1;3;12-15;Arme bogenförmig nach oben-innen~Zu viel Rumpf
+Brust;Kabel-Brustpresse;Cable Chest Press;Trizeps;Kabel;1;3;10-12;Schulterblätter zurück~Rumpf dreht
+Brust;Squeeze Press;Squeeze Press;Trizeps;Kurzhantel;1;3;10-15;Hanteln gegeneinander pressen~Spannung verlieren
+Rücken;Pendlay-Rudern;Pendlay Row;Unterer Rücken;Langhantel;3;3;5-8;Stange jede Wdh. am Boden ablegen~Rundrücken
+Rücken;Rack Pull;Rack Pull;Gesäß, Unterer Rücken;Langhantel;3;3;4-8;Stange ab Kniehöhe, Rücken gerade~Rundrücken
+Rücken;Hammer-Strength-Rudern;Plate-Loaded Row;Bizeps;Maschine;1;3;8-12;Brust am Polster~Schwung
+Schultern;Y-Raises;Y-Raise;Rücken;Kurzhantel;2;3;12-15;Arme in Y-Form heben~Zu schwer
+Schultern;Z-Press;Z-Press;Trizeps, Bauch;Langhantel;3;3;6-10;Sitzend ohne Rückenlehne~Hohlkreuz
+Schultern;Kabel-Y-Raises;Cable Y-Raise;Rücken;Kabel;1;3;12-15;Seil auseinanderziehen~Rumpf pendelt
+Quadrizeps;Cossack Squats;Cossack Squat;Gesäß;Körpergewicht;2;3;8-12;Zur Seite tief absenken~Ferse hebt ab
+Quadrizeps;Pendulum Squat;Pendulum Squat;Gesäß;Maschine;2;3;8-12;Tief absenken~Knie fallen nach innen
+Gesäß;Frog Pumps;Frog Pump;;Körpergewicht;1;3;15-25;Fußsohlen zusammen, Becken heben~Hohlkreuz
+Gesäß;Cable Pull-Through;Cable Pull-Through;Beinbeuger;Kabel;1;3;10-15;Hüfte nach hinten schieben~Aus dem Rücken ziehen
+Bauch;V-Ups;V-Up;Hüftbeuger;Körpergewicht;2;3;10-15;Arme und Beine zusammenführen~Schwung
+Bauch;Hollow Body Hold;Hollow Body Hold;;Körpergewicht;2;3;20-40 s;Unterer Rücken am Boden~Hohlkreuz
+Bauch;Bauchmaschine;Ab Crunch Machine;;Maschine;1;3;12-15;Rumpf einrollen~Mit Armen ziehen
+Bauch;Toes to Bar;Toes to Bar;Unterarme;Körpergewicht;3;3;6-10;Füße zur Stange heben~Pendeln
+Unterarme;Behind-the-Back-Handgelenkcurls;Behind-the-Back Wrist Curl;;Langhantel;1;3;12-20;Stange hinter dem Körper halten~Zu schwer
+Beinbeuger;Einbeiniger Beinbeuger liegend;Single-Leg Lying Curl;Waden;Maschine;1;3;10-12;Hüfte am Polster~Hüfte hebt ab
+Waden;Wadenheben mit Kurzhanteln;Dumbbell Calf Raise;;Kurzhantel;1;3;12-20;Volle Dehnung~Wippen`;
+const EX=RAW.split('\n').map((l,i)=>{const[m,de,en,su,eq,lv,se,re,t]=l.split(';'),[tip,fe]=t.split('~');return{id:i,m,de,en,su,eq,lv:+lv,se:+se,re,tip,fe}});
+const LV={Anfänger:1,Wiedereinsteiger:1,Fortgeschritten:2,Experte:3},EQ=['Langhantel','Kurzhantel','Maschine','Kabel','Multipresse','Körpergewicht','Cardio'];
+const GOAL={Muskelaufbau:[3,'8-12',90],Fettabbau:[3,'12-15',60],'Muskelaufbau und Fettabbau':[3,'10-15',75],Kraftsteigerung:[4,'4-6',150],'Allgemeine Fitness':[3,'10-12',75]};
+const T={GK:['Brust','Rücken','Quadrizeps','Beinbeuger','Schultern','Bauch'],OK:['Brust','Rücken','Schultern','Bizeps','Trizeps'],UK:['Quadrizeps','Beinbeuger','Gesäß','Waden','Bauch'],Push:['Brust','Brust','Schultern','Trizeps','Trizeps'],Pull:['Rücken','Rücken','Schultern','Bizeps','Bizeps','Unterarme'],Legs:['Quadrizeps','Beinbeuger','Gesäß','Waden','Bauch'],Arme:['Bizeps','Trizeps','Bauch','Unterer Rücken','Waden']};
+const SPLIT={2:['Ganzkörper A:GK','Ganzkörper B:GK'],3:['Ganzkörper A:GK','Ganzkörper B:GK','Ganzkörper C:GK'],4:['Oberkörper A:OK','Unterkörper A:UK','Oberkörper B:OK','Unterkörper B:UK'],5:['Push:Push','Pull:Pull','Beine:Legs','Oberkörper:OK','Unterkörper:UK'],6:['Push A:Push','Pull A:Pull','Beine A:Legs','Push B:Push','Pull B:Pull','Beine B:Legs'],7:['Push A:Push','Pull A:Pull','Beine A:Legs','Push B:Push','Pull B:Pull','Beine B:Legs','Arme & Rumpf:Arme']};
+const WD={2:[1,4],3:[1,3,5],4:[1,2,4,5],5:[1,2,3,4,5],6:[1,2,3,4,5,6],7:[1,2,3,4,5,6,0]},DN=['So','Mo','Di','Mi','Do','Fr','Sa'];
+const SYS={2:'Ganzkörper',3:'Ganzkörper',4:'Oberkörper / Unterkörper',5:'Push / Pull / Beine + Ober-/Unterkörper',6:'Push / Pull / Beine (2×)',7:'Push / Pull / Beine (2×) + Arme & Rumpf'};
+let S=JSON.parse(localStorage.getItem('fc')||'null')||{profile:null,plans:[],planId:null,sessions:[],active:null,weights:[],fav:[],moves:{}};
+const save=()=>{try{S.updatedAt=Date.now();localStorage.setItem('fc',JSON.stringify(S))}catch(e){}window.onSaved&&window.onSaved()};
+let addMu={},fdy=0,ftab='plan',popen=0,leg=false,V='dash',per='W',cm=0,sel=null,pex=0,favOnly=false,q='',mf='',open=null;
+const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const iso=d=>{d=new Date(d);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const fd=d=>new Date(d).toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'});
+const plan=()=>S.plans.find(p=>p.id==S.planId);
+const e1=(k,r)=>k*(1+r/30);
+function gen(p){const[se,re,rest]=GOAL[p.goal],L=LV[p.level],eq=[...(p.equip||[]),'Körpergewicht'],used={};const max=Math.max(4,Math.round(p.dur/9));
+ const days=SPLIT[p.days].map((s,i)=>{const[name,t]=s.split(':'),ex=[];T[t].forEach(m=>{let c=EX.filter(x=>x.m==m&&x.lv<=L&&eq.includes(x.eq));if(!c.length)c=EX.filter(x=>x.m==m&&x.lv<=L);if(!c.length)return;
+  const k=m+t;used[k]=(used[k]||0);const x=c[(Math.floor(i/2)+used[k]++)%c.length];if(!ex.some(e=>e.id==x.id))ex.push({id:x.id,sets:p.goal=='Kraftsteigerung'&&x.lv>1?4:se,reps:x.re.includes('s')?x.re:re,kg:0,rest})});
+  const E=ex.slice(0,max);if(p.goal.includes('Fett')){const c=EX.filter(x=>x.m=='Cardio'&&x.lv<=L),x=c[i%c.length];E.push({id:x.id,sets:1,reps:'15-20',kg:0,rest:0})}return{name,wd:WD[p.days][i],ex:E,focus:[...new Set(E.map(e=>EX[e.id].m))]}});
+ return{id:Date.now()+Math.random(),name:p.goal+' · '+p.days+'×/Woche',sys:SYS[p.days],days}}
+function check(d){const w=[],c={};let n=0;d.ex.forEach(e=>{const m=EX[e.id].m;c[m]=(c[m]||0)+e.sets;n+=e.sets});for(const m in c)if(c[m]>10)w.push('Sehr hohes Volumen für '+m+' ('+c[m]+' Sätze) – Regeneration beachten.');if(n>26)w.push('Mit '+n+' Sätzen ist die Einheit sehr lang.');if(d.ex.length&&!d.ex.some(e=>EX[e.id].m!=EX[d.ex[0].id].m))w.push('Nur eine Muskelgruppe in dieser Einheit.');return w}
+function adj(p){const w=[],ds=[...p.days].sort((a,b)=>(a.wd||7)-(b.wd||7));for(let i=0;i<ds.length-1;i++){const a=ds[i],b=ds[i+1];if(((b.wd||7)-(a.wd||7))!=1)continue;const A=new Set(a.ex.map(e=>EX[e.id].m)),sh=[...new Set(b.ex.map(e=>EX[e.id].m))].filter(m=>A.has(m)&&!['Bauch','Waden','Unterarme'].includes(m));if(sh.length>1)w.push(a.name+' und '+b.name+' folgen direkt aufeinander und belasten beide: '+sh.join(', ')+'.')}return w}
+const hist=id=>S.sessions.filter(s=>s.logs.some(l=>l.id==id)).map(s=>({d:s.date,sets:s.logs.find(l=>l.id==id).sets}));
+function sug(id,reps){const h=hist(id);if(!h.length)return null;const L=h[h.length-1].sets,top=+(reps.split('-').pop()),lo=+reps.split('-')[0],kg=Math.max(...L.map(s=>s.kg));
+ if(L.length>=2&&L.every(s=>s.reps>=top))return{t:'Gewicht erhöhen auf '+(kg+2.5)+' kg (alle Sätze '+top+' Wdh. geschafft)',kg:kg+2.5};
+ if(L.filter(s=>s.reps<lo).length>=2)return{t:'Gewicht reduzieren auf '+Math.max(0,kg-2.5)+' kg (Wiederholungsziel verfehlt)',kg:Math.max(0,kg-2.5)};
+ const rir=L.filter(s=>s.rir!=null&&s.rir!=='');if(rir.length&&rir.every(s=>+s.rir>=3))return{t:'Du hattest noch ≥3 Wdh. im Tank – Gewicht steigern',kg:kg+2.5};
+ if(h.length>=3&&h.slice(-3).every(x=>Math.max(...x.sets.map(s=>e1(s.kg,s.reps)))<=Math.max(...h[h.length-3].sets.map(s=>e1(s.kg,s.reps)))+.1))return{t:'Stagnation seit 3 Einheiten – Übung austauschen oder Regeneration verlängern',kg:null};
+ return{t:'Wiederholungen steigern bis '+top+', dann Gewicht erhöhen',kg:null}}
+const last=id=>{const h=hist(id);return h.length?h[h.length-1].sets:null};
+const bestOf=(id,before)=>{let b=0;if(EX[id].m=='Cardio')return 0;S.sessions.forEach(s=>{if(before&&s.date>=before)return;(s.logs.find(l=>l.id==id)?.sets||[]).forEach(x=>b=Math.max(b,e1(x.kg,x.reps)))});return b};
+function bars(d,w=320,hh=120){if(!d.length)return'<p class="mu">Noch keine Daten.</p>';const mx=Math.max(...d.map(x=>x[1]),1),bw=w/d.length;return`<div class="sc"><svg viewBox="0 0 ${w} ${hh+18}" width="100%">`+d.map((x,i)=>{const bh=x[1]/mx*hh;return`<rect x="${i*bw+3}" y="${hh-bh}" width="${bw-6}" height="${bh}" rx="3" fill="#ff7a1a"/><text x="${i*bw+bw/2}" y="${hh+13}" text-anchor="middle">${esc(x[0])}</text>`}).join('')+'</svg></div>'}
+function line(d,w=320,hh=110){if(d.length<2)return'<p class="mu">Mindestens zwei Einträge nötig.</p>';const v=d.map(x=>x[1]),mn=Math.min(...v),mx=Math.max(...v),r=mx-mn||1,p=d.map((x,i)=>[i/(d.length-1)*(w-20)+10,hh-(x[1]-mn)/r*(hh-14)-4]);return`<svg viewBox="0 0 ${w} ${hh+16}" width="100%"><polyline fill="none" stroke="#ff7a1a" stroke-width="2.5" points="${p.map(a=>a.join(',')).join(' ')}"/>${p.map(a=>`<circle cx="${a[0]}" cy="${a[1]}" r="3" fill="#ff7a1a"/>`).join('')}<text x="2" y="${hh+13}">${esc(d[0][0])}</text><text x="${w-2}" y="${hh+13}" text-anchor="end">${esc(d[d.length-1][0])} · ${v[v.length-1]}</text></svg>`}
+const vol=s=>s.logs.reduce((a,l)=>EX[l.id].m=='Cardio'?a:a+l.sets.reduce((b,x)=>b+x.kg*x.reps,0),0);
+function buckets(){const n=new Date(),o=[];if(per=='W')for(let i=7;i>=0;i--){const a=new Date(n);a.setDate(n.getDate()-((n.getDay()+6)%7)-i*7);a.setHours(0,0,0,0);const b=new Date(a);b.setDate(a.getDate()+7);o.push([a.getDate()+'.'+(a.getMonth()+1)+'.',a,b])}
+ else{const k=per=='M'?6:12;for(let i=k-1;i>=0;i--){const a=new Date(n.getFullYear(),n.getMonth()-i,1),b=new Date(n.getFullYear(),n.getMonth()-i+1,1);o.push([(a.getMonth()+1)+'/'+String(a.getFullYear()).slice(2),a,b])}}
+ return o.map(([l,a,b])=>[l,S.sessions.filter(s=>{const d=new Date(s.date);return d>=a&&d<b})])}
+const perBtn=()=>`<div class="row">${[['W','Wochen'],['M','Monate'],['J','Jahr']].map(([k,t])=>`<button class="s ${per==k?'on':''}" data-a="per" data-k="${k}">${t}</button>`).join('')}</div>`;
+// ---- Views
+const R={};
+R.setup=()=>{const p=S.profile||{age:30,sex:'',h:175,w:75,level:'Anfänger',goal:'Muskelaufbau',days:3,dur:60,equip:['Langhantel','Kurzhantel','Maschine','Kabel'],inj:'',pref:''};
+ const sel=(id,o,v)=>`<select id="${id}">${o.map(x=>`<option ${x==v?'selected':''}>${x}</option>`).join('')}</select>`;
+ return`<h1>${S.profile?'Profil':'Willkommen bei FitCoach'}</h1><p class="mu">${S.profile?'Angaben jederzeit änderbar.':'Erstelle dein Profil – daraus entsteht dein Trainingsplan.'}</p><div class="card">
+ <div class="row"><label>Alter<br><input id="pa" type="number" value="${p.age}"></label><label>Größe cm<br><input id="ph" type="number" value="${p.h}"></label><label>Gewicht kg<br><input id="pw" type="number" step=".1" value="${p.w}"></label></div><br>
+ <label>Geschlecht (optional)${sel('ps',['','weiblich','männlich','divers'],p.sex)}</label><br><br><label>Trainingslevel${sel('pl',Object.keys(LV),p.level)}</label><br><br><label>Trainingsziel${sel('pg',Object.keys(GOAL),p.goal)}</label><br><br>
+ <div class="row"><label>Tage pro Woche${sel('pd',[2,3,4,5,6,7],p.days)}</label><label>Minuten pro Einheit<br><input id="pm" type="number" value="${p.dur}"></label></div><br>
+ <p class="mu">Bevorzugte Geräte</p><div class="row">${EQ.filter(e=>e!='Körpergewicht').map(e=>`<label><input type="checkbox" class="pe" value="${e}" ${p.equip.includes(e)?'checked':''}> ${e}</label>`).join('')}</div><br>
+ <label>Verletzungen / Einschränkungen<textarea id="pi" rows="2">${esc(p.inj)}</textarea></label><br><br><label>Trainingsvorlieben<textarea id="pp" rows="2">${esc(p.pref)}</textarea></label><br><br>
+ <label class="shop" style="border:0;padding:0 0 14px"><input type="checkbox" data-c="showFood" ${S.showFood!==false?'checked':''}><span><b>Bereich „Ernährung“ anzeigen</b><br><span class="mu sm">Rezepte, Wochenplan und Einkaufsliste in der Navigation. Wirkt sofort.</span></span></label>
+ <div class="row"><button class="p" data-a="saveProf">${S.profile?'Profil speichern':'Profil speichern & Plan erstellen'}</button></div></div>
+ ${S.profile?`<div class="card"><h3>Daten</h3><div class="row"><button data-a="export">Export (JSON)</button><button data-a="exportCsv">Export (CSV)</button><button data-a="notif">Erinnerung aktivieren</button><button data-a="reset">Alles löschen</button></div><p class="mu">Daten liegen nur in diesem Browser. Für Backup regelmäßig exportieren.</p></div>`:''}`};
+const MU2=[...MU,'Cardio'],hue=m=>'hsl('+MU2.indexOf(m)*28+' 85% 60%)';
+const grouped=fo=>(fo&&fo.length?fo:MU2).map(m=>`<optgroup label="${m}">${EX.filter(x=>x.m==m).sort((a,b)=>a.de.localeCompare(b.de,'de')).map(x=>`<option value="${x.id}">${x.de}</option>`).join('')}</optgroup>`).join('');
+const BD='h50,9;b50,16,50,38,50,50,52,62;',FR='h50,9;b50,16,50,38;b50,38,44,62;b50,38,56,62;b38,17,62,17;',SE='h50,9;b50,16,50,40;b50,40,64,40,64,60;p42,41,56,41;',HB='h14,46;b22,50,';
+const POSE={curl:[BD+'a50,16,51,28,52,40;w52,41',BD+'a50,16,51,28,57,17;w57,16'],pushdown:[BD+'a50,16,51,28,59,27;l62,-8,59,27;w59,27',BD+'a50,16,51,28,52,41;l62,-8,52,41;w52,41'],
+lateral:[FR+'a38,17,36,36;a62,17,64,36;w36,37;w64,37',FR+'a38,17,22,19;a62,17,78,19;w21,19;w79,19'],press:[BD+'a50,16,54,24,52,13;w52,13',BD+'a50,16,51,4,52,-6;w52,-6'],
+bench:['h20,36;b27,38,60,40;b60,40,72,32,74,44;p22,43,66,43;l30,43,30,62;l60,43,60,62;a32,38,29,44,32,30;w32,29','h20,36;b27,38,60,40;b60,40,72,32,74,44;p22,43,66,43;l30,43,30,62;l60,43,60,62;a32,38,32,25,32,12;w32,11'],
+fly:[FR+'a38,17,30,20,22,30;a62,17,70,20,78,30;w22,31;w78,31',FR+'a38,17,38,27,47,34;a62,17,62,27,53,34;w47,35;w53,35'],
+pulldown:[SE+'a50,16,53,6,55,-6;l55,-12,55,-6;w55,-6',SE+'a50,16,46,28,56,18;l55,-12,56,18;w56,18'],row:[SE+'a50,16,62,19,74,21;l92,21,74,21;w74,21',SE+'a50,16,44,26,58,25;l92,21,58,25;w58,25'],
+squat:['h50,9;b50,16,50,38;a50,38,50,50,52,62;w50,14','h40,23;b42,30,36,48;a36,48,56,46,50,62;w42,27'],
+hinge:['h72,26;a64,28,44,38;b44,38,50,50,48,62;d64,28,64,44,62,57;w62,58','h50,9;a50,16,50,38;b50,38,50,50,52,62;d50,16,51,28,52,40;w52,42'],
+lunge:['h50,9;b50,16,50,38;a50,38,50,50,52,62','h50,17;b50,24,50,44;a50,44,64,46,66,62;a50,44,40,56,30,62'],
+legpress:['h11,36;b16,40,30,54;a30,54,44,40,52,52;l47,58,57,46','h11,36;b16,40,30,54;a30,54,52,38,72,28;l76,34,68,20'],
+legext:['h45,9;b45,16,45,40;p36,41,54,41;a45,40,60,40,60,58;w60,58','h45,9;b45,16,45,40;p36,41,54,41;a45,40,60,40,78,40;w78,40'],
+calf:['h50,9;b50,16,50,38,50,50;a50,50,50,59,58,62','h50,4;b50,11,50,33,50,45;a50,45,50,54,58,62'],
+thrust:[HB+'44,58;a44,58,56,46,60,60;p10,56,30,56',HB+'46,44;a46,44,58,46,60,60;p10,56,30,56'],
+crunch:['h20,54;a26,56,46,58;b46,58,58,46,62,60','h32,44;a34,48,46,58;b46,58,58,46,62,60'],plank:['h20,34;a26,38,64,46,84,56;b26,38,26,56,36,58'],
+pushup:['h14,30;a22,36,84,56;b22,36,22,58','h14,42;a22,48,84,58;b22,48,32,56,22,58'],
+pullup:['h50,13;b50,20,50,42,50,54,50,64;a50,20,50,5,50,-6;l30,-6,70,-6','h50,-10;b50,-3,50,19,50,31,50,41;a50,-3,45,2,50,-6;l30,-6,70,-6'],
+run:['h54,9;b52,16,50,36;a50,36,62,42,58,56;a50,36,40,48,32,56;d52,16,62,26,68,20;d52,16,42,24,38,32','h54,9;b52,16,50,36;a50,36,58,44,62,56;a50,36,46,50,38,58;d52,16,42,26,38,18;d52,16,62,24,66,32']};
+POSE.legcurl=[POSE.legext[1],POSE.legext[0]];
+const PAT=[[/Pike/,'press'],[/JM Press/,'pushdown'],[/Wadenheben/,'calf'],[/Klimmzug|Chin-Up|Dead Hang|Toes to Bar/,'pullup'],[/Latzug|Latziehen|Überzüge|Pullover/,'pulldown'],[/Hyperext|Good Morning|Kreuzheben|Rack Pull|Superman|Bird Dog|Swing|Glute-Ham|Pull-Through/,'hinge'],[/udern|Rudermaschine|Rudergerät|Meadows|Pendlay|Face/,'row'],[/Liegestütze|Push-Up|Dips|Dip-Maschine/,'pushup'],[/Plank|Seitstütz|Mountain|Ab-Wheel|Hollow/,'plank'],[/Crunch|Sit-Up|Beinheben|Knieheben|Russian|Fahrrad|Holzhacker|Pallof|V-Ups|Bauchmaschine|Dead Bug/,'crunch'],[/Beinpresse/,'legpress'],[/Beinstrecker/,'legext'],[/Beinbeuger|Nordic|Slider/,'legcurl'],[/niebeuge|Squat|Hackenschmidt|Wandsitzen|Box Jumps|Sissy/,'squat'],[/Ausfallschritt|Lunge|Step-Up/,'lunge'],[/Hip Thrust|Hüftstreckung|Glute Bridge|Frog|Donkey|Clamshell|Hüftabduktion|Hüftadduktion|Kabel-Kickbacks/,'thrust'],[/Wadenheben|Eselwaden|Schienbein|Seilspringen/,'calf'],[/curl|Curl/,'curl'],[/Seitheben|Frontheben|Y-Raise/,'lateral'],[/Fliegende|Butterfly|Crossover|Kabel-Fly|Reverse/,'fly'],[/Bankdrücken|Brustpresse|Schrägbank|Svend|Squeeze|Landmine/,'bench'],[/Tate|Trizeps|French|Kickback|Pushdown|Strecken/,'pushdown'],[/Schulterdrücken|Press|Arnold|Military|Pike|Aufrechtes/,'press']];
+const MD={Brust:'bench',Rücken:'row',Schultern:'press',Bizeps:'curl',Trizeps:'pushdown',Bauch:'crunch','Unterer Rücken':'hinge',Quadrizeps:'squat',Beinbeuger:'legcurl',Gesäß:'thrust',Waden:'calf',Unterarme:'curl',Cardio:'run'};
+const pat=x=>{if(x.m=='Cardio')return'run';const r=PAT.find(([re])=>re.test(x.de));return r?r[1]:MD[x.m]};
+const PS={b:['#dfe2e6',5],a:['#ff6a00',5],d:['#7b818a',4.2],l:['#5a5f67',2],p:['#454a52',6]};
+const SW={h:p=>`<circle cx="${p[0]}" cy="${p[1]}" r="5.6" fill="#e9ebee" stroke="#0b0c0e" stroke-width="1.6"/>`,w:p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4.6" fill="#1b1d21" stroke="#ff6a00" stroke-width="2.4"/><circle cx="${p[0]}" cy="${p[1]}" r="1.3" fill="#ff6a00"/>`};
+const drawP=s=>{const seg=[];let pr='',hd='';s.split(';').forEach(g=>{const t=g[0],n=g.slice(1).split(',').map(Number);if(t=='h')hd+=SW.h(n);else if(t=='w')hd+=SW.w(n);else if(t=='l'||t=='p')pr+=`<polyline points="${n}" fill="none" stroke="${PS[t][0]}" stroke-width="${PS[t][1]}" stroke-linecap="round"/>`;else for(let i=0;i+3<n.length;i+=2){const L=Math.hypot(n[i+2]-n[i],n[i+3]-n[i+1]);seg.push([t,n[i],n[i+1],n[i+2],n[i+3],PS[t][1]+(L>20&&t!='d'?3.5:0)])}});
+ const ln=(g,c,w,o='')=>`<line x1="${g[1]}" y1="${g[2]}" x2="${g[3]}" y2="${g[4]}" stroke="${c}" stroke-width="${w}" stroke-linecap="round" ${o}/>`;
+ return`<line x1="4" y1="65" x2="96" y2="65" stroke="#2f333a" stroke-width="2" stroke-linecap="round"/>`+pr+seg.filter(g=>g[0]=='a').map(g=>ln(g,'#ff6a00',g[5]+8,'stroke-opacity=".22"')).join('')+seg.map(g=>ln(g,'#0b0c0e',g[5]+2.6)).join('')+seg.map(g=>ln(g,PS[g[0]][0],g[5])).join('')+hd};
+const mvSvg=(x,i,w)=>{const P=POSE[pat(x)];return`<svg viewBox="0 -16 100 86" width="${w}" role="img" aria-label="Bewegungsskizze ${esc(x.de)}">${drawP(P[Math.min(i,P.length-1)])}</svg>`};
+const mvH=x=>{const P=POSE[pat(x)];return`<div class="mv">${P.map((_,i)=>`<figure>${mvSvg(x,i,120)}<figcaption>${P.length>1?['Start','Ende'][i]:'Halten'}</figcaption></figure>`).join('<span class="ar">›</span>')}</div><p class="mu sm" style="margin:6px 0 0">Vereinfachte Skizze der Bewegung – Details siehe Technik-Hinweise.</p>`};
+const xCard=(y,a)=>`<button class="xc ${a.cls||''}" ${a.attr}><div class="mv2">${mvSvg(y,0,46)}${mvSvg(y,1,46)}</div><b>${y.de}</b><span class="mu sm">${y.eq}${a.note||''}</span></button>`;
+const addPick=(d,di)=>{const g=addMu[di];return`<div class="fo"><span class="mu sm">Übung hinzufügen: erst Muskelgruppe, dann Übung antippen</span><div class="tiles">${MU2.map(m=>`<button class="tile ${g==m?'on':''}" data-a="pickMuA" data-d="${di}" data-k="${m}">${pict({m},34)}<span>${m}</span></button>`).join('')}</div>${g?`<div class="xgrid">${EX.filter(x=>x.m==g).sort((a,b)=>a.de.localeCompare(b.de,'de')).map(x=>{const inn=d.ex.some(e=>e.id==x.id);return xCard(x,{cls:inn?'in':'',attr:`data-a="addEx2" data-d="${di}" data-k="${x.id}"`,note:inn?' · ✓ im Plan':''})}).join('')}</div>`:''}</div>`};
+const swapPick=(di,e,ei,x)=>`<div class="xgrid" style="margin-top:8px">${EX.filter(y=>y.m==x.m&&y.id!=e.id).sort((a,b)=>(b.su==x.su)-(a.su==x.su)).map(y=>xCard(y,{attr:`data-a="swapTo2" data-d="${di}" data-e="${ei}" data-k="${y.id}"`})).join('')}</div>`;
+const focusH=(d,di)=>{if(!d.focus)d.focus=[...new Set(d.ex.map(e=>EX[e.id].m))];const fo=d.focus;return`<div class="fo"><span class="mu sm">Muskelgruppen dieses Tages</span><div>${fo.map(m=>`<span class="chip"><i style="background:${hue(m)}"></i>${m} <b data-a="rmFocus" data-d="${di}" data-k="${m}" style="cursor:pointer;padding:0 4px" title="Entfernen">✕</b></span>`).join('')||'<span class="mu sm">noch keine – unten auswählen</span>'}</div><div class="row" style="margin-top:8px"><select data-c="addFocus" data-d="${di}" style="flex:1"><option value="">+ Muskelgruppe wählen…</option>${MU2.filter(m=>!fo.includes(m)).map(m=>`<option>${m}</option>`).join('')}</select>${fo.length?`<button class="s" data-a="suggest" data-d="${di}">Übungen vorschlagen</button>`:''}</div></div>`};
+const LEG=()=>`<div class="card"><h3>Begriffe</h3>${[['Satz','Eine Serie von Wiederholungen ohne Pause.'],['Wdh','Wiederholungen pro Satz.'],['Max','Satz bis zum Muskelversagen: keine weitere saubere Wiederholung möglich. Nicht jeder Satz sollte Max sein.'],['kg / Stufe','Gewicht in kg. Bei Cardio: Stufe, km/h oder Widerstand.'],['Min','Bei Cardio die Dauer in Minuten.'],['e1RM','Geschätztes Maximalgewicht für 1 Wiederholung, berechnet aus kg und Wdh.'],['Volumen','Summe aus kg × Wdh aller Sätze.'],['Bestleistung','Neues bestes e1RM einer Übung.'],['Pause','Erholung zwischen den Sätzen in Sekunden.'],['Multipresse','Langhantel in fester Führungsschiene (Smith Machine).'],['Push / Pull / Beine','Drücken (Brust, Schulter, Trizeps), Ziehen (Rücken, Bizeps), Beine.'],['Ganzkörper / OK-UK','Alle Muskeln pro Einheit bzw. Ober- und Unterkörper im Wechsel.'],['Stagnation','Seit mehreren Einheiten keine Steigerung.']].map(([a,b])=>`<p style="margin:6px 0"><b class="ac">${a}</b> <span class="mu">${b}</span></p>`).join('')}</div>`;
+R.dash=()=>{const ss=S.sessions,p=plan(),n=new Date(),mon=new Date(n);mon.setDate(n.getDate()-((n.getDay()+6)%7));mon.setHours(0,0,0,0);
+ const wk=ss.filter(s=>new Date(s.date)>=mon).length,pl=p?p.days.length:0,pct=pl?Math.min(1,wk/pl):0,min=ss.reduce((a,s)=>a+s.min,0),wt=S.weights.length?S.weights[S.weights.length-1].kg:S.profile.w,bk=buckets(),C=2*Math.PI*34;
+ let nx='';if(p)for(let i=0;i<8&&!nx;i++){const d=new Date(n);d.setDate(n.getDate()+i);const dy=p.days.find(x=>x.wd==d.getDay());if(dy&&!(i==0&&ss.some(s=>iso(s.date)==iso(d))))nx=(i==0?'Heute':i==1?'Morgen':DN[d.getDay()])+': '+esc(dy.name)}
+ const prs=EX.map(x=>[x,bestOf(x.id)]).filter(a=>a[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,5);
+ return`<div class="hero"><svg viewBox="0 0 84 84" width="104" height="104"><defs><linearGradient id="gr"><stop offset="0" stop-color="#ff6a00"/><stop offset="1" stop-color="#ffb347"/></linearGradient></defs><circle cx="42" cy="42" r="34" fill="none" stroke="#ffffff1a" stroke-width="9"/><circle cx="42" cy="42" r="34" fill="none" stroke="url(#gr)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C*pct} ${C}" transform="rotate(-90 42 42)"/><text x="42" y="48" text-anchor="middle" style="fill:#fff;font:700 20px Barlow Condensed,sans-serif">${wk}/${pl}</text></svg><div><span class="mu">Diese Woche</span><h1>${nx?'Nächstes Training':'Woche geschafft'}</h1><div class="ac" style="font-weight:600">${nx||'Gönn dir Erholung 💪'}</div></div></div>
+ ${S.active?`<div class="card"><b>Training läuft: ${esc(S.active.name)}</b><br><br><button class="p" data-a="nav" data-k="train">Fortsetzen</button></div>`:`<button class="p big-btn" data-a="nav" data-k="train">▶ Training starten</button>`}
+ <div class="g"><div class="card"><div class="big">${wt}</div><span class="mu">kg</span></div><div class="card"><div class="big">${ss.length}</div><span class="mu">Einheiten</span></div><div class="card"><div class="big">${min}</div><span class="mu">Minuten</span></div></div>
+ <div class="card"><h3>Körpergewicht</h3>${line(S.weights.map(w=>[w.d.slice(5),w.kg]))}<div class="row"><input id="nw" type="number" step=".1" placeholder="kg" style="width:100px"><button data-a="addW">Eintragen</button></div></div>
+ <div class="card"><div class="row sp"><h3>Volumen (kg)</h3>${perBtn()}</div>${bars(bk.map(([l,s])=>[l,Math.round(s.reduce((a,x)=>a+vol(x),0))]))}</div>
+ <div class="card"><h3>Einheiten</h3>${bars(bk.map(([l,s])=>[l,s.length]))}</div>
+ <div class="card"><h3>Bestleistungen 🏆</h3>${prs.length?prs.map(([x,v])=>`<div class="row sp"><span>${x.de}</span><b class="ac">${Math.round(v)} kg e1RM</b></div>`).join(''):'<p class="mu">Starte dein erstes Training – Rekorde werden automatisch erkannt.</p>'}</div>`};
+R.plan=()=>{const p=plan(),pr=S.profile;if(!p)return'<h1>Trainingsplan</h1><div class="card"><button class="p" data-a="genPlan">Plan automatisch erstellen</button></div>';
+ const wkS=[1,2,3,4,5,6,0].map(w=>{const ds=p.days.filter(d=>d.wd==w);return`<div class="wk ${ds.length?'on':''}"><b>${DN[w]}</b>${ds.length?ds.map(d=>esc(d.name)).join('<br>'):'Ruhe'}</div>`}).join('');
+ return`<h1>Trainingsplan</h1><br><div class="card"><select data-c="selPlan">${S.plans.map(x=>`<option value="${x.id}" ${x.id==p.id?'selected':''}>${esc(x.name)}</option>`).join('')}</select><p class="mu" style="margin:6px 0 0">${esc(p.sys)}</p><div class="wkr">${wkS}</div>
+ <div class="row"><button class="s" data-a="genPlan">Neu generieren</button><button class="s" data-a="dupPlan">Duplizieren</button><button class="s" data-a="newPlan">Eigener Plan</button><button class="s" data-a="delPlan">Löschen</button></div>
+ ${pr.inj.trim()?`<div class="warn">⚠️ Einschränkung: „${esc(pr.inj)}“. Übungen mit Arzt oder Physiotherapeut abklären – die App ersetzt keine medizinische Freigabe.</div>`:''}${adj(p).map(w=>`<div class="warn">${w}</div>`).join('')}</div>
+ ${p.days.map((d,di)=>{const o=popen==di,ms=[...new Set(d.ex.map(e=>EX[e.id].m))],ns=d.ex.reduce((a,e)=>a+e.sets,0);
+ const body=`<div class="row" style="margin:12px 0 6px"><input type="text" style="flex:1" value="${esc(d.name)}" data-c="dname" data-d="${di}"><select style="width:auto" data-c="dwd" data-d="${di}">${[1,2,3,4,5,6,0].map(w=>`<option value="${w}" ${w==d.wd?'selected':''}>${DN[w]}</option>`).join('')}</select><button class="s" data-a="delDay" data-d="${di}">🗑</button></div>${check(d).map(w=>`<div class="warn">${w}</div>`).join('')}`+focusH(d,di)+d.ex.map((e,ei)=>{const x=EX[e.id],cd=x.m=='Cardio',f=(k,t,st)=>`<label>${t}<input ${st||'type="number"'} data-c="ef" data-f="${k}" data-d="${di}" data-e="${ei}" value="${e[k]}"></label>`;
+  return`<div class="ex"><div class="row sp"><b style="display:flex;align-items:center;gap:8px"><span class="th">${mvSvg(x,1,42)}</span>${x.de}</b><span class="row" style="gap:4px"><button class="s" data-a="mv" data-d="${di}" data-e="${ei}" data-k="-1">↑</button><button class="s" data-a="mv" data-d="${di}" data-e="${ei}" data-k="1">↓</button><button class="s" data-a="swap" data-d="${di}" data-e="${ei}">⇄</button><button class="s" data-a="delEx" data-d="${di}" data-e="${ei}">✕</button></span></div>
+  <div class="inp">${cd?f('reps','Minuten','type="text"'):f('sets','Sätze')+f('reps','Wdh','type="text"')+f('kg','kg','type="number" step=".5"')+f('rest','Pause s')}</div>
+  ${open==di+'-'+ei?swapPick(di,e,ei,x):''}</div>`}).join('')+`${addPick(d,di)}`;
+ return`<div class="card day ${o?'o':''}"><div class="row sp" data-a="pop" data-d="${di}" style="cursor:pointer;flex-wrap:nowrap"><div style="min-width:0;flex:1"><h3 style="margin:0">${DN[d.wd]} · ${esc(d.name)}</h3><div>${ms.map(m=>`<span class="chip"><i style="background:${hue(m)}"></i>${m}</span>`).join('')}</div><div class="mu sm" style="margin-top:4px">${d.ex.length} Übungen · ${ns} Sätze</div></div><span class="ac">${o?'▲':'▼'}</span></div>${o?body:''}</div>`}).join('')}<button data-a="addDay">+ Trainingstag</button>`};
+R.train=()=>{const a=S.active,p=plan();
+ if(!a)return`<h1>Training starten</h1><br>${p?p.days.map((d,i)=>`<div class="card"><div class="row sp"><div><h3 style="margin:0">${esc(d.name)}</h3><span class="mu">${DN[d.wd]} · ${d.ex.length} Übungen</span><div>${[...new Set(d.ex.map(e=>EX[e.id].m))].map(m=>`<span class="chip"><i style="background:${hue(m)}"></i>${m}</span>`).join('')}</div></div><button class="p" data-a="start" data-d="${i}">Start</button></div></div>`).join(''):'<div class="card">Erstelle zuerst einen Plan.</div>'}<button class="s" data-a="legend">ℹ Begriffe</button>${leg?LEG():''}`;
+ return`<div class="row sp"><h1>${esc(a.name)}</h1><button class="p" data-a="finish">Beenden</button></div><p class="mu">${fd(a.start)} · seit ${new Date(a.start).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})} Uhr · wird automatisch gespeichert – du kannst unterbrechen und später fortsetzen. <button class="s" data-a="legend">ℹ Begriffe</button></p>${leg?LEG():''}
+ ${a.ex.map((e,ei)=>{const x=EX[e.id],sg=sug(e.id,e.reps),cd=x.m=='Cardio';return`<div class="card"><h3><i class="dot" style="background:${hue(x.m)}"></i>${x.de} <span class="mu" style="font-size:14px;text-transform:none">${x.en}</span></h3><span class="mu">Ziel: ${cd?e.reps+' Min':e.sets+'×'+e.reps+' · Pause '+e.rest+' s'} ${last(e.id)?'· zuletzt: '+last(e.id).map(s=>s.kg+'×'+s.reps).join(', '):''}</span>
+ ${sg&&!cd?`<div class="warn">💡 ${sg.t}${sg.kg?` <button class="s" data-a="takeKg" data-e="${ei}" data-k="${sg.kg}">Übernehmen</button>`:''}</div>`:''}
+ <div class="set mu"><span>#</span><span>${cd?'Stufe/km/h':'kg'}</span><span>${cd?'Min':'Wdh'}</span><span>${cd?'':'Max'}</span><span></span></div>
+ ${e.sets_.map((s,si)=>`<div class="set ${s.done?'d':''}"><b>${si+1}</b><input type="number" inputmode="decimal" step=".5" data-c="sf" data-f="kg" data-e="${ei}" data-s="${si}" value="${s.kg}"><input type="number" inputmode="numeric" data-c="sf" data-f="reps" data-e="${ei}" data-s="${si}" value="${s.reps}">${cd?'<span></span>':`<button class="mx ${s.rir==='Max'?'on':''}" data-a="togMax" data-e="${ei}" data-s="${si}">Max</button>`}<button class="${s.done?'p':''}" data-a="tick" data-e="${ei}" data-s="${si}">✓</button></div>`).join('')}
+ <button class="s" data-a="addSet" data-e="${ei}">+ Satz</button> <button class="s" data-a="showEx" data-k="${e.id}">Technik</button>
+ ${open=='t'+e.id?`<p class="mu"><b>Ausführung:</b> ${x.tip}.<br><b>Häufiger Fehler:</b> ${x.fe}.</p><div class="pic">${mvH(x)}<div style="margin-top:8px">${pict(x,120)}</div></div><img class="exi" src="img/${e.id}.jpg" alt="" onerror="this.remove()">`:''}</div>`}).join('')}`};
+R.db=()=>{const L=EX.filter(x=>(!mf||x.m==mf)&&(!favOnly||S.fav.includes(x.id))&&(x.de+x.en).toLowerCase().includes(q.toLowerCase()));
+ const card=x=>`<div class="card"><div class="row sp"><div data-a="exOpen" data-k="${x.id}" style="flex:1;cursor:pointer;display:flex;gap:10px;align-items:center"><span class="th">${mvSvg(x,1,58)}</span><div><b>${x.de}</b><br><span class="mu">${x.en} · ${x.eq} · ${['','Einsteiger','Mittel','Fortgeschritten'][x.lv]}</span></div></div><button class="s ${S.fav.includes(x.id)?'on':''}" data-a="fav" data-k="${x.id}">★</button></div>${open=='x'+x.id?`<p class="mu">Unterstützend: ${x.su||'–'}<br>Empfehlung: ${x.se}×${x.re}${x.m=='Cardio'?' Min':''}<br><b>Ausführung:</b> ${x.tip}<br><b>Häufiger Fehler:</b> ${x.fe}</p><div class="pic">${mvH(x)}<div style="margin-top:8px">${pict(x,120)}</div></div><img class="exi" src="img/${x.id}.jpg" alt="" onerror="this.remove()">`:''}</div>`;
+ const out=MU2.map(m=>{const g=L.filter(x=>x.m==m).sort((a,b)=>a.de.localeCompare(b.de,'de'));return g.length?`<h2 class="gh">${pict({m},46)}${m}<span>${g.length}</span></h2>`+g.map(card).join(''):''}).join('');
+ return`<h1>Übungen <span class="mu" style="font-size:16px">${EX.length}</span></h1><br><div class="row"><input type="text" id="q" placeholder="Suchen (DE/EN)" value="${esc(q)}" style="flex:1"><select id="mf" style="width:auto"><option value="">Alle</option>${MU2.map(m=>`<option ${m==mf?'selected':''}>${m}</option>`).join('')}</select><button class="${favOnly?'on':''}" data-a="favOnly">★</button><button class="${leg?'on':''}" data-a="legend">ℹ</button></div>${leg?LEG():''}${out||'<p class="mu">Keine Treffer.</p>'}`};
+const PRG=[['Schultern','fb',-21,15,9,9,4.5],['Brust','f',-12,22,11,9,3],['Bauch','f',-8,33,16,18,4],['Bizeps','f',-21,25,7,11,3],['Trizeps','b',-21,25,7,11,3],['Unterarme','fb',-21,38,7,12,3],['Quadrizeps','f',-12,56,11,22,4],['Waden','fb',-11,82,9,14,4],['Rücken','b',-12,20,24,15,5],['Unterer Rücken','b',-8,37,16,10,3],['Gesäß','b',-12,49,24,12,5],['Beinbeuger','b',-12,63,11,16,4]],PM={Trapezmuskel:'Rücken','Schräge Bauchmuskeln':'Bauch',Hüftbeuger:'Quadrizeps'};
+const pict=(x,w=96)=>{if(x.m=='Cardio')return`<svg viewBox="0 0 120 112" width="${w}" role="img" aria-label="Cardio"><text x="60" y="78" text-anchor="middle" style="font-size:70px;fill:#ff6a00">♥</text></svg>`;
+ const sup=(x.su||'').split(', ').map(s=>PM[s]||s),base='<circle cy="8" r="6"/><rect x="-13" y="16" width="26" height="36" rx="8"/><rect x="-21" y="17" width="7" height="34" rx="3.5"/><rect x="14" y="17" width="7" height="34" rx="3.5"/><rect x="-12" y="54" width="11" height="44" rx="5"/><rect x="1" y="54" width="11" height="44" rx="5"/>';
+ const v=k=>`<g transform="translate(${k=='f'?30:90} 0)"><g fill="#2c2f35">${base}</g>${PRG.filter(r=>r[1].includes(k)).map(([m,,a,b,c,d,r])=>`<g fill="${m==x.m?'#ff6a00':sup.includes(m)?'#ff6a0070':'#3b3f47'}"><rect x="${a}" y="${b}" width="${c}" height="${d}" rx="${r}"/><rect x="${-a-c}" y="${b}" width="${c}" height="${d}" rx="${r}"/></g>`).join('')}</g>`;
+ return`<svg viewBox="0 0 120 112" width="${w}" role="img" aria-label="Trainierte Muskeln: ${x.m}">${v('f')}${v('b')}<text x="30" y="109" text-anchor="middle">Vorne</text><text x="90" y="109" text-anchor="middle">Hinten</text></svg>`};
+const REC=`F|Haferflocken-Quark-Bowl|520|38|1|Haferflocken:60:g:T;Magerquark:250:g:M;Banane:1:Stk:O;Beeren (TK):100:g:O|Haferflocken mit Quark verrühren/Banane in Scheiben und Beeren darauf geben/Kurz quellen lassen
+F|Rührei auf Vollkorntoast|480|30|1|Eier:3:Stk:M;Vollkornbrot:2:Scheibe:T;Tomaten:2:Stk:O;Olivenöl:1:TL:S|Eier verquirlen und in Öl stocken lassen/Brot toasten/Mit Tomatenscheiben servieren
+F|Protein-Pfannkuchen|560|40|1|Haferflocken:70:g:T;Eier:2:Stk:M;Banane:1:Stk:O;Magerquark:150:g:M|Haferflocken, Eier, Banane und 50 g Quark pürieren/Je Seite 2–3 Min. in beschichteter Pfanne backen/Mit restlichem Quark servieren
+M|Hähnchen-Reis-Pfanne|620|50|0|Hähnchenbrust:150:g:F;Reis (roh):80:g:T;Brokkoli:200:g:O;Olivenöl:1:EL:S;Sojasauce:1:EL:S|Reis nach Packung kochen/Hähnchenwürfel in Öl anbraten/Brokkoli zugeben, 5 Min. garen/Mit Sojasauce und Reis mischen
+M|Rotes Linsen-Curry|640|30|2|Rote Linsen:90:g:T;Kokosmilch light:100:ml:T;Zwiebel:1:Stk:O;Tomaten (Dose):200:g:T;Reis (roh):60:g:T;Currypulver:1:TL:S|Zwiebel anschwitzen, Curry zugeben/Linsen, Tomaten, Kokosmilch und 150 ml Wasser 15 Min. köcheln/Mit Reis servieren
+M|Thunfisch-Vollkornnudeln|600|45|0|Vollkornnudeln:90:g:T;Thunfisch (Dose):150:g:F;Tomaten (Dose):200:g:T;Zwiebel:1:Stk:O;Olivenöl:1:EL:S|Nudeln kochen/Zwiebel in Öl anbraten, Tomaten 8 Min. köcheln/Thunfisch und Nudeln unterheben
+A|Lachs mit Ofenkartoffeln|640|38|0|Lachsfilet:150:g:F;Kartoffeln:300:g:O;Brokkoli:200:g:O;Olivenöl:1:EL:S|Kartoffeln würfeln und mit Öl 25 Min. bei 200 °C backen/Lachs 12 Min. dazulegen/Brokkoli dämpfen und servieren
+A|Puten-Gemüse-Pfanne|560|48|0|Putenbrust:160:g:F;Paprika:2:Stk:O;Zucchini:1:Stk:O;Reis (roh):70:g:T;Olivenöl:1:EL:S|Reis kochen/Putenstreifen anbraten/Gemüse zugeben und 6 Min. braten/Mit Reis servieren
+A|Gemüse-Omelett mit Salat|500|33|1|Eier:3:Stk:M;Paprika:1:Stk:O;Feta:40:g:M;Blattsalat:100:g:O;Vollkornbrot:1:Scheibe:T|Paprika würfeln und kurz anbraten/Eier darübergeben und stocken lassen/Feta darüber, mit Salat und Brot essen
+S|Skyr mit Nüssen|280|30|1|Skyr:250:g:M;Walnüsse:20:g:T;Beeren (TK):80:g:O|Alles in einer Schale mischen
+S|Hüttenkäse-Gurkenbrot|300|25|1|Hüttenkäse:150:g:M;Vollkornbrot:2:Scheibe:T;Gurke:0.5:Stk:O|Brot mit Hüttenkäse belegen/Gurkenscheiben darauflegen
+S|Protein-Bananenshake|340|36|1|Whey-Protein:30:g:T;Milch:300:ml:M;Banane:1:Stk:O|Alles im Mixer cremig mixen
+F|Overnight Oats mit Beeren|480|30|1|Haferflocken:60:g:T;Skyr:200:g:M;Milch:100:ml:M;Beeren (TK):100:g:O;Chiasamen:10:g:T|Alles in einem Glas mischen/Über Nacht kühl stellen/Morgens mit Beeren toppen
+F|Vegane Tofu-Rühre|450|30|2|Tofu natur:200:g:F;Vollkornbrot:2:Scheibe:T;Tomaten:2:Stk:O;Olivenöl:1:EL:S;Kurkuma:1:TL:S|Tofu zerbröseln und in Öl braten/Kurkuma und Salz zugeben/Mit Brot und Tomaten servieren
+F|Avocado-Ei-Brot|470|24|1|Vollkornbrot:2:Scheibe:T;Avocado:0.5:Stk:O;Eier:2:Stk:M;Tomaten:1:Stk:O|Eier 8 Min. kochen/Avocado zerdrücken und aufs Brot streichen/Mit Ei- und Tomatenscheiben belegen
+F|Vegane Haferbrei-Bowl|500|20|2|Haferflocken:70:g:T;Sojadrink:300:ml:T;Banane:1:Stk:O;Erdnussmus:15:g:T;Beeren (TK):80:g:O|Hafer im Sojadrink 5 Min. köcheln/Banane zerdrücken und unterrühren/Mit Erdnussmus und Beeren toppen
+M|Chili sin Carne|620|32|2|Kidneybohnen (Dose):240:g:T;Mais (Dose):100:g:T;Tomaten (Dose):400:g:T;Paprika:1:Stk:O;Zwiebel:1:Stk:O;Reis (roh):70:g:T;Paprikapulver:1:TL:S|Zwiebel und Paprika anbraten/Bohnen, Mais, Tomaten und Gewürz 15 Min. köcheln/Mit Reis servieren
+M|Kichererbsen-Quinoa-Bowl|600|28|2|Kichererbsen (Dose):240:g:T;Quinoa (roh):70:g:T;Gurke:0.5:Stk:O;Tomaten:2:Stk:O;Olivenöl:1:EL:S;Zitrone:0.5:Stk:O|Quinoa kochen/Gemüse würfeln/Alles mit Öl und Zitronensaft mischen
+M|Rindfleisch-Wok|640|46|0|Rinderstreifen:150:g:F;Reisnudeln:80:g:T;Paprika:1:Stk:O;Karotten:2:Stk:O;Sojasauce:2:EL:S;Olivenöl:1:EL:S|Nudeln nach Packung einweichen/Fleisch scharf anbraten, Gemüse zugeben/Nudeln und Sojasauce unterheben
+M|Puten-Wrap|560|42|0|Vollkorn-Wraps:2:Stk:T;Putenbrust (Aufschnitt):120:g:F;Frischkäse light:30:g:M;Blattsalat:60:g:O;Gurke:0.5:Stk:O|Wraps mit Frischkäse bestreichen/Pute, Salat und Gurke darauflegen/Aufrollen und halbieren
+M|Süßkartoffel-Bohnen-Pfanne|600|26|2|Süßkartoffel:300:g:O;Schwarze Bohnen (Dose):240:g:T;Paprika:1:Stk:O;Olivenöl:1:EL:S;Paprikapulver:1:TL:S|Süßkartoffel würfeln und in Öl 12 Min. braten/Paprika und Bohnen zugeben/Mit Gewürz abschmecken
+A|Ofengemüse mit Hähnchen|560|46|0|Hähnchenbrust:160:g:F;Kartoffeln:250:g:O;Karotten:2:Stk:O;Zucchini:1:Stk:O;Olivenöl:1:EL:S|Gemüse würfeln, mit Öl bei 200 °C backen/Hähnchen nach 10 Min. dazugeben/Weitere 20 Min. garen
+A|Tofu-Gemüse-Curry|580|32|2|Tofu natur:200:g:F;Kokosmilch light:100:ml:T;Brokkoli:200:g:O;Paprika:1:Stk:O;Reis (roh):70:g:T;Currypulver:1:TL:S|Tofu würfeln und goldbraun braten/Gemüse, Curry und Kokosmilch 10 Min. köcheln/Mit Reis servieren
+A|Garnelen-Pasta mit Zucchini|580|42|0|Garnelen:150:g:F;Vollkornnudeln:90:g:T;Zucchini:1:Stk:O;Knoblauch:1:Stk:O;Olivenöl:1:EL:S|Nudeln kochen/Zucchini und Knoblauch anbraten, Garnelen 3 Min. mitbraten/Mit Nudeln mischen
+A|Quark-Kartoffeln mit Ei|540|36|1|Kartoffeln:300:g:O;Magerquark:200:g:M;Eier:2:Stk:M;Schnittlauch:5:g:O|Kartoffeln 20 Min. kochen/Quark mit Salz und Schnittlauch verrühren/Mit gekochten Eiern servieren
+A|Vegane Linsen-Bolognese|600|34|2|Vollkornnudeln:90:g:T;Rote Linsen:70:g:T;Tomaten (Dose):400:g:T;Zwiebel:1:Stk:O;Karotten:1:Stk:O|Zwiebel und Karotte anbraten/Linsen und Tomaten 15 Min. köcheln/Zu den Nudeln servieren
+S|Hummus mit Rohkost|280|12|2|Hummus:80:g:T;Karotten:2:Stk:O;Gurke:0.5:Stk:O;Vollkornbrot:1:Scheibe:T|Gemüse in Stifte schneiden/Mit Hummus und Brot essen
+S|Apfel mit Erdnussmus|250|8|2|Apfel:1:Stk:O;Erdnussmus:20:g:T|Apfel in Spalten schneiden/Mit Erdnussmus dippen
+S|Quark mit Apfel und Zimt|230|28|1|Magerquark:250:g:M;Apfel:1:Stk:O;Zimt:1:TL:S|Apfel würfeln/Unter den Quark rühren, mit Zimt bestreuen
+S|Reiswaffeln mit Pute|220|20|0|Reiswaffeln:3:Stk:T;Putenbrust (Aufschnitt):80:g:F;Gurke:0.5:Stk:O|Waffeln mit Pute und Gurke belegen
+S|Veganer Protein-Smoothie|320|30|2|Veganes Proteinpulver:30:g:T;Sojadrink:300:ml:T;Banane:1:Stk:O|Alles im Mixer cremig mixen`.split('\n').map(l=>{const[t,n,k,p,v,i,s]=l.split('|');return{t,n,k:+k,p:+p,v:+v>0,vg:v=='2',i:i.split(';').map(a=>{const[x,q,u,c]=a.split(':');return{x,q:+q,u,c}}),s:s.split('/')}});
+const MT=['F','M','A','S'],ML={F:'Frühstück',M:'Mittagessen',A:'Abendessen',S:'Snack'},CAT={O:'Obst & Gemüse',F:'Fleisch, Fisch & Tofu',M:'Milch & Eier',T:'Trocken- & Backwaren',S:'Öl & Gewürze'};
+const Fd=()=>S.food||(S.food={diet:'alles',seed:0,checked:{}});
+const tg=()=>{const p=S.profile,bmr=10*p.w+6.25*p.h-5*p.age+(p.sex=='männlich'?5:p.sex=='weiblich'?-161:-78),gf={Fettabbau:.85,'Muskelaufbau und Fettabbau':.93,Muskelaufbau:1.08,Kraftsteigerung:1.05,'Allgemeine Fitness':1}[p.goal]||1,k=Math.max(1500,Math.round(bmr*(1.2+.075*p.days)*gf/50)*50),pr=Math.round(p.w*(p.goal.includes('Fett')?2:1.8)),fa=Math.round(k*.27/9);return{k,pr,fa,ch:Math.round((k-pr*4-fa*9)/4)}};
+const allRec=()=>[...REC,...(Fd().custom||[])];
+const dayM=d=>{const z=Fd(),ms=MT.map((t,i)=>{const P=allRec().filter(r=>r.t==t&&(z.diet=='alles'||(z.diet=='vegan'?r.vg:r.v))),pin=allRec().find(r=>r.n==(z.pins||{})[d+t]);return pin||P[(d+z.seed+i)%P.length]});return{ms,f:Math.min(1.6,Math.max(.7,tg().k/ms.reduce((a,r)=>a+r.k,0)))}};
+const amt=(q,u,f)=>{let v=q*f;v=u=='g'||u=='ml'?Math.max(5,Math.round(v/5)*5):Math.max(.5,Math.round(v*2)/2);return String(v).replace('.',',')};
+const shopAgg=()=>{const a={};for(let d=0;d<7;d++){const x=dayM(d);x.ms.forEach(r=>r.i.forEach(i=>{(a[i.x+'|'+i.u]=a[i.x+'|'+i.u]||{...i,q:0}).q+=i.q*x.f}))}return a};
+R.food=()=>{const T=tg(),Z=Fd(),{ms,f}=dayM(fdy),DD=['Mo','Di','Mi','Do','Fr','Sa','So'];
+ const head=`<h1>Ernährung</h1><br><div class="row" style="margin-bottom:12px"><button class="${ftab=='plan'?'p':''}" data-a="ftab" data-k="plan">Wochenplan</button><button class="${ftab=='shop'?'p':''}" data-a="ftab" data-k="shop">Einkaufsliste</button><button class="${ftab=='rec'?'p':''}" data-a="ftab" data-k="rec">Rezepte</button><select data-c="diet" style="width:auto;margin-left:auto"><option value="alles" ${Z.diet=='alles'?'selected':''}>Alles</option><option value="vegetarisch" ${Z.diet=='vegetarisch'?'selected':''}>Vegetarisch</option><option value="vegan" ${Z.diet=='vegan'?'selected':''}>Vegan</option></select></div>`;
+ if(ftab=='rec')return head+recTab();
+ if(ftab=='shop'){const a=shopAgg();return head+`<div class="row sp" style="margin-bottom:10px"><span class="mu">7 Tage · 1 Person</span><span><button class="s" data-a="shopTxt">Als Text speichern</button> <button class="s" data-a="unchk">Zurücksetzen</button></span></div>`+Object.keys(CAT).map(c=>{const L=Object.entries(a).filter(([k,v])=>v.c==c).sort((x,y)=>x[1].x.localeCompare(y[1].x,'de'));return L.length?`<div class="card"><h3>${CAT[c]}</h3>${L.map(([k,v])=>`<label class="shop ${Z.checked[k]?'dn_':''}"><input type="checkbox" data-c="chk" data-k="${esc(k)}" ${Z.checked[k]?'checked':''}><span>${esc(v.x)}</span><b>${amt(v.q,v.u,1)} ${v.u}</b></label>`).join('')}</div>`:''}).join('')}
+ const tot=ms.reduce((a,r)=>({k:a.k+r.k*f,p:a.p+r.p*f}),{k:0,p:0});
+ return head+`<div class="card"><h3>Dein Tagesziel</h3><div class="g" style="grid-template-columns:repeat(4,1fr)">${[[T.k,'kcal'],[T.pr,'g Eiweiß'],[T.ch,'g KH'],[T.fa,'g Fett']].map(([a,b])=>`<div><div class="big" style="font-size:30px">${a}</div><span class="mu sm">${b}</span></div>`).join('')}</div><p class="mu sm" style="margin-bottom:0">Richtwerte (Mifflin-St Jeor) aus Profil, Ziel und Trainingstagen – keine Ernährungsberatung. Bei Erkrankungen, Schwangerschaft oder Allergien bitte ärztlich abklären und Zutaten selbst prüfen.</p></div>
+ <div class="wkr">${DD.map((n,i)=>`<button class="${i==fdy?'p':''}" data-a="fday" data-k="${i}" style="padding:4px">${n}</button>`).join('')}</div>
+ ${ms.map(r=>{const key=fdy+r.n,o=open=='r'+key;return`<div class="card"><div class="row sp" data-a="fopen" data-k="${esc(key)}" style="cursor:pointer;flex-wrap:nowrap"><div><span class="mu sm">${ML[r.t]}</span><h3 style="margin:0">${r.n}</h3></div><div style="text-align:right"><b class="ac">${Math.round(r.k*f)} kcal</b><br><span class="mu sm">${Math.round(r.p*f)} g Eiweiß</span></div></div>${o?`<ul>${r.i.map(i=>`<li>${amt(i.q,i.u,f)} ${i.u} ${i.x}</li>`).join('')}</ul><ol>${r.s.map(s=>`<li>${s}</li>`).join('')}</ol><select data-c="pin" data-k="${fdy}${r.t}" style="margin-top:6px"><option value="">Tauschen gegen…</option>${Fd().pins&&Fd().pins[fdy+r.t]?'<option value="__auto">↺ Automatisch</option>':''}${allRec().filter(x=>x.t==r.t&&x.n!=r.n).map(x=>`<option value="${esc(x.n)}">${esc(x.n)}</option>`).join('')}</select>`:''}</div>`}).join('')}
+ <div class="card row sp"><b>Summe Tag</b><b class="ac">${Math.round(tot.k)} kcal · ${Math.round(tot.p)} g Eiweiß</b></div><button data-a="reroll">🎲 Anderen Plan mischen</button>`};
+const guess=n=>/hähnchen|pute|lachs|thunfisch|fisch|rind|schinken|garnele|tofu|fleisch|wurst|hack/i.test(n)?'F':/milch|quark|skyr|käse|joghurt|butter|feta|sahne|^eier?\b/i.test(n)?'M':/apfel|banane|beere|gemüse|tomate|paprika|zwiebel|gurke|salat|brokkoli|zucchini|kartoffel|karotte|möhre|spinat|knoblauch|zitrone|avocado|pilz|obst|lauch|kürbis/i.test(n)?'O':/öl\b|salz|pfeffer|gewürz|curry|sauce|essig|zucker|honig|senf|zimt/i.test(n)?'S':'T';
+const recTab=()=>{const form=`<details class="card"><summary><b class="ac">+ Eigenes Rezept erstellen</b></summary><div style="margin-top:12px"><input type="text" id="rn" placeholder="Name des Rezepts"><div class="row" style="margin:8px 0"><select id="rt" style="flex:1"><option value="F">Frühstück</option><option value="M">Mittagessen</option><option value="A">Abendessen</option><option value="S">Snack</option></select><select id="rv" style="flex:1"><option value="0">Mit Fleisch/Fisch</option><option value="1">Vegetarisch</option><option value="2">Vegan</option></select></div><div class="row" style="margin-bottom:8px"><input type="number" id="rk" placeholder="kcal (1 Portion)" style="flex:1"><input type="number" id="rp" placeholder="Eiweiß g" style="flex:1"></div><textarea id="ri" rows="5" placeholder="Zutaten, eine pro Zeile:&#10;60 g Haferflocken&#10;2 Stk Eier&#10;1 EL Olivenöl"></textarea><br><br><textarea id="rs" rows="4" placeholder="Zubereitung, ein Schritt pro Zeile"></textarea><p class="mu sm">Einheiten: g, ml, Stk, EL, TL, Scheibe, Dose, Pck. Der Planer skaliert das Rezept auf dein Tagesziel, nimmt es in die Rotation auf und die Zutaten in die Einkaufsliste.</p><button class="p" data-a="saveRec">Rezept speichern</button></div></details>`;
+ const list=r=>{const o=open=='b'+r.n;return`<div class="card"><div class="row sp" data-a="bopen" data-k="${esc(r.n)}" style="cursor:pointer;flex-wrap:nowrap"><div><span class="mu sm">${r.vg?'vegan':r.v?'vegetarisch':'mit Fleisch/Fisch'}${r.own?' · eigenes Rezept':''}</span><h3 style="margin:0">${esc(r.n)}</h3></div><b class="ac" style="text-align:right">${r.k} kcal<br><span class="mu sm">${r.p} g Eiweiß</span></b></div>${o?`<ul>${r.i.map(i=>`<li>${i.q} ${i.u} ${esc(i.x)}</li>`).join('')}</ul><ol>${r.s.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>${r.own?`<button class="s" data-a="delRec" data-k="${esc(r.n)}">Löschen</button>`:''}`:''}</div>`};
+ return form+MT.map(t=>`<h2 class="gh">${ML[t]}</h2>`+allRec().filter(r=>r.t==t).map(list).join('')).join('')};
+R.cal=()=>{const n=new Date(),b=new Date(n.getFullYear(),n.getMonth()+cm,1),p=plan(),first=(b.getDay()+6)%7,dim=new Date(b.getFullYear(),b.getMonth()+1,0).getDate(),today=iso(n);
+ const pl=i=>{if(!p)return[];const dow=new Date(i+'T12:00').getDay(),r=p.days.filter(d=>d.wd==dow&&!S.moves[i]).map(d=>[d.name,0]);for(const k in S.moves)if(S.moves[k]==i){const o=p.days.find(d=>d.wd==new Date(k+'T12:00').getDay());if(o)r.push([o.name,1])}return r};
+ let c=['Mo','Di','Mi','Do','Fr','Sa','So'].map(x=>`<div class="h">${x}</div>`).join('')+'<div class="h"></div>'.repeat(first);
+ for(let d=1;d<=dim;d++){const i=iso(new Date(b.getFullYear(),b.getMonth(),d)),dn=S.sessions.filter(s=>iso(s.date)==i),pp=pl(i);let t='';
+  dn.forEach(s=>t+=`<span class="tag dn">✓</span>`);if(!dn.length)pp.forEach(x=>t+=i<today&&!x[1]?`<span class="tag ms">ausgefallen</span>`:`<span class="tag ${x[1]?'mv':'pl'}">${x[1]?'verschoben':'geplant'}</span>`);if(!dn.length&&!pp.length)t='<span class="mu">Ruhe</span>';
+  c+=`<div class="${i==today?'t':''}" data-a="selDay" data-k="${i}">${d}<br>${t}</div>`}
+ const sp=sel?pl(sel):[],ds=sel?S.sessions.filter(s=>iso(s.date)==sel):[];
+ return`<h1>Kalender</h1><div class="row sp"><button data-a="cm" data-k="-1">‹</button><b>${b.toLocaleDateString('de-DE',{month:'long',year:'numeric'})}</b><button data-a="cm" data-k="1">›</button></div><br><div class="cal">${c}</div>
+ ${sel?`<div class="card" style="margin-top:12px"><b>${fd(sel)}</b>${ds.map(s=>`<p>✓ ${esc(s.name)} · ${s.min} min · ${Math.round(vol(s))} kg Volumen</p>`).join('')}${sp.map(x=>`<p>${esc(x[0])} geplant${x[1]?' (verschoben)':''}</p>`).join('')}${!ds.length&&!sp.length?'<p class="mu">Ruhetag</p>':''}
+ ${sp.length&&sel>=today?`<div class="row"><input type="date" id="mvd" value="${sel}"><button class="s" data-a="moveDay">Verschieben</button></div>`:''}</div>`:''}
+ ${p&&adj(p).length?adj(p).map(w=>`<div class="warn">${w}</div>`).join(''):''}`};
+R.prog=()=>{const ids=[...new Set(S.sessions.flatMap(s=>s.logs.map(l=>l.id)))].filter(i=>EX[i].m!='Cardio'),id=ids.includes(pex)?pex:ids[0],mv={};
+ S.sessions.forEach(s=>s.logs.filter(l=>EX[l.id].m!='Cardio').forEach(l=>mv[EX[l.id].m]=(mv[EX[l.id].m]||0)+l.sets.reduce((a,x)=>a+x.kg*x.reps,0)));
+ const h=id!=null?hist(id):[];
+ return`<h1>Fortschritte</h1>${!S.sessions.length?'<div class="card mu">Noch keine Trainings gespeichert.</div>':`<div class="card"><h3>Kraftentwicklung (geschätztes 1RM)</h3><select id="pex">${ids.map(i=>`<option value="${i}" ${i==id?'selected':''}>${EX[i].de}</option>`).join('')}</select>${line(h.map(x=>[iso(x.d).slice(5),Math.round(Math.max(...x.sets.map(s=>e1(s.kg,s.reps))))]))}</div>
+ <div class="card"><h3>Volumen pro Muskelgruppe (kg)</h3>${bars(Object.entries(mv).map(([k,v])=>[k.slice(0,5),Math.round(v)]))}</div>
+ <div class="card"><h3>Historie</h3>${h.slice().reverse().map(x=>`<p><b>${fd(x.d)}</b><br>${x.sets.map((s,i)=>`Satz ${i+1}: ${s.kg} kg × ${s.reps}${s.rir==='Max'?' (Max)':''}`).join('<br>')}</p>`).join('')}</div>
+ <div class="card"><h3>Trainingshäufigkeit</h3>${perBtn()}${bars(buckets().map(([l,s])=>[l,s.length]))}</div>`}`};
+// ---- Actions
+const A={nav:(d)=>{V=d.k},per:d=>{per=d.k},
+ saveProf(){const g=i=>$(i).value,first=!S.profile;S.profile={age:+g('pa'),h:+g('ph'),w:+g('pw'),sex:g('ps'),level:g('pl'),goal:g('pg'),days:+g('pd'),dur:+g('pm')||60,equip:[...document.querySelectorAll('.pe:checked')].map(x=>x.value),inj:g('pi'),pref:g('pp')};
+  if(!S.weights.length)S.weights.push({d:iso(new Date()),kg:S.profile.w});if(first||confirm('Neuen Plan passend zum Profil erzeugen? (Bestehende Pläne bleiben erhalten)')){const p=gen(S.profile);S.plans.push(p);S.planId=p.id}V='plan'},
+ genPlan(){const p=gen(S.profile);S.plans.push(p);S.planId=p.id},
+ dupPlan(){const p=JSON.parse(JSON.stringify(plan()));p.id=Date.now();p.name+=' (Kopie)';S.plans.push(p);S.planId=p.id},
+ newPlan(){const p={id:Date.now(),name:'Eigener Plan',sys:'Individuell',days:[{name:'Tag 1',wd:1,ex:[]}]};S.plans.push(p);S.planId=p.id},
+ delPlan(){if(confirm('Plan löschen?')){S.plans=S.plans.filter(p=>p.id!=S.planId);S.planId=S.plans[0]?.id}},
+ delDay:d=>plan().days.splice(+d.d,1),addDay(){plan().days.push({name:'Tag '+(plan().days.length+1),wd:1,ex:[]})},
+ mv(d){const a=plan().days[+d.d].ex,i=+d.e,j=i+ +d.k;if(j<0||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]]},
+ swap(d){open=open==d.d+'-'+d.e?null:d.d+'-'+d.e},delEx:d=>plan().days[+d.d].ex.splice(+d.e,1),
+ addEx(d){const x=EX[+$('add'+d.d).value],[se,re,rest]=GOAL[S.profile.goal];const cd=x.m=='Cardio',t_=plan().days[+d.d];t_.focus=t_.focus||[];if(!t_.focus.includes(x.m))t_.focus.push(x.m);t_.ex.push({id:x.id,sets:cd?1:se,reps:cd?'15-20':x.re.includes('s')?x.re:re,kg:0,rest:cd?0:rest})},
+ start(d){const dy=plan().days[+d.d];S.active={start:Date.now(),name:dy.name,ex:dy.ex.map(e=>{const l=last(e.id);return{id:e.id,reps:e.reps,rest:e.rest,sets:e.sets,sets_:Array.from({length:e.sets},(_,i)=>({kg:e.kg||(l?(l[i]||l[l.length-1]).kg:0),reps:'',rir:'',done:false}))}})}},
+bopen(d){open=open=='b'+d.k?null:'b'+d.k},delRec(d){if(confirm('Rezept löschen?')){const z=Fd();z.custom=(z.custom||[]).filter(r=>r.n!=d.k)}},
+ saveRec(){const g=i=>$(i).value.trim(),n=g('rn'),k=+g('rk'),v=g('rv'),ing=g('ri').split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{const m=l.match(/^([\d.,]+)\s*(g|ml|Stk|EL|TL|Scheibe|Dose|Pck)?\s+(.+)$/i);return m?{q:parseFloat(m[1].replace(',','.')),u:m[2]||'Stk',x:m[3],c:guess(m[3])}:null});
+  if(!n||!(k>0)||!ing.length||ing.includes(null)){alert('Bitte Name, kcal und Zutaten im Format „60 g Haferflocken“ angeben.');return}
+  const z=Fd();z.custom=(z.custom||[]).filter(r=>r.n!=n);z.custom.push({t:g('rt'),n,k,p:+g('rp')||0,v:+v>0,vg:v=='2',own:true,i:ing,s:g('rs').split('\n').map(l=>l.trim()).filter(Boolean)});alert('Gespeichert.')},
+ ftab(d){ftab=d.k},fday(d){fdy=+d.k},fopen(d){open=open=='r'+d.k?null:'r'+d.k},reroll(){Fd().seed++},unchk(){Fd().checked={}},
+ shopTxt(){const a=shopAgg();dl('einkaufsliste.txt',Object.keys(CAT).map(c=>{const L=Object.values(a).filter(v=>v.c==c);return L.length?CAT[c]+':\n'+L.map(v=>'[ ] '+v.x+' '+amt(v.q,v.u,1)+' '+v.u).join('\n'):''}).filter(Boolean).join('\n\n'),'text/plain')},
+ pickMuA(d){addMu[+d.d]=addMu[+d.d]==d.k?null:d.k},
+ addEx2(d){const t=plan().days[+d.d],x=EX[+d.k],[se,re,rest]=GOAL[S.profile.goal],cd=x.m=='Cardio';if(t.ex.some(e=>e.id==x.id))return;t.focus=t.focus||[];if(!t.focus.includes(x.m))t.focus.push(x.m);t.ex.push({id:x.id,sets:cd?1:se,reps:cd?'15-20':x.re.includes('s')?x.re:re,kg:0,rest:cd?0:rest})},
+ swapTo2(d){plan().days[+d.d].ex[+d.e].id=+d.k;open=null},
+ rmFocus(d){const t=plan().days[+d.d];t.focus=(t.focus||[]).filter(m=>m!=d.k)},
+ suggest(d){const t=plan().days[+d.d],pr=S.profile,L=LV[pr.level],eq=[...(pr.equip||[]),'Körpergewicht'],[se,re,rest]=GOAL[pr.goal];(t.focus||[]).forEach(m=>{if(t.ex.some(e=>EX[e.id].m==m))return;let c=EX.filter(x=>x.m==m&&x.lv<=L&&(m=='Cardio'||eq.includes(x.eq)));if(!c.length)c=EX.filter(x=>x.m==m);const x=c[t.ex.length%c.length],cd=m=='Cardio';t.ex.push({id:x.id,sets:cd?1:se,reps:cd?'15-20':x.re.includes('s')?x.re:re,kg:0,rest:cd?0:rest})})},
+ togMax(d){const s=S.active.ex[+d.e].sets_[+d.s];s.rir=s.rir==='Max'?'':'Max'},pop(d){popen=popen==+d.d?-1:+d.d},legend(){leg=!leg},
+ tick(d){const s=S.active.ex[+d.e].sets_[+d.s];if(!s.done&&s.reps===''){alert('Bitte Wiederholungen eintragen.');return}s.done=!s.done},
+ addSet(d){const a=S.active.ex[+d.e].sets_;a.push({kg:a.length?a[a.length-1].kg:0,reps:'',rir:'',done:false})},
+ takeKg(d){S.active.ex[+d.e].sets_.forEach(s=>{if(!s.done)s.kg=+d.k})},showEx(d){open=open=='t'+d.k?null:'t'+d.k},
+ finish(){const a=S.active,logs=a.ex.map(e=>({id:e.id,sets:e.sets_.filter(s=>s.done).map(s=>({kg:+s.kg,reps:+s.reps,rir:s.rir}))})).filter(l=>l.sets.length);
+  if(!logs.length&&!confirm('Keine Sätze abgehakt. Training verwerfen?'))return;
+  if(logs.length){const prs=logs.filter(l=>Math.max(...l.sets.map(s=>e1(s.kg,s.reps)))>bestOf(l.id,a.start)&&bestOf(l.id,a.start)>0).map(l=>EX[l.id].de);
+   S.sessions.push({id:a.start,date:a.start,name:a.name,min:Math.max(1,Math.round((Date.now()-a.start)/60000)),logs});if(prs.length)alert('🏆 Neue Bestleistung: '+prs.join(', '))}S.active=null;V='dash'},
+ favOnly(){favOnly=!favOnly},fav(d){const k=+d.k;S.fav=S.fav.includes(k)?S.fav.filter(x=>x!=k):[...S.fav,k]},exOpen(d){open=open=='x'+d.k?null:'x'+d.k},
+ cm(d){cm+=+d.k},selDay(d){sel=d.k},moveDay(){const t=$('mvd').value;if(t&&t!=sel){S.moves[sel]=t;sel=t}},
+ addW(){const v=+$('nw').value;if(v)S.weights.push({d:iso(new Date()),kg:v})},
+ export(){dl('fitcoach-backup.json',JSON.stringify(S,null,1),'application/json')},
+ exportCsv(){dl('trainings.csv','Datum;Uhrzeit;Training;Übung;Satz;kg;Wdh;RIR\n'+S.sessions.flatMap(s=>s.logs.flatMap(l=>l.sets.map((x,i)=>[iso(s.date),new Date(s.date).toLocaleTimeString('de-DE'),s.name,EX[l.id].de,i+1,x.kg,x.reps,x.rir].join(';')))).join('\n'),'text/csv')},
+ notif(){if(!('Notification' in window))return alert('Nicht unterstützt.');Notification.requestPermission().then(r=>alert(r=='granted'?'Erinnerungen erscheinen, solange die App geöffnet ist und heute ein Trainingstag ist.':'Nicht erlaubt.'))},
+ reset(){if(confirm('Wirklich ALLE Daten löschen?')){S={profile:null,plans:[],planId:null,sessions:[],active:null,weights:[],fav:[],moves:{}}}}};
+function dl(n,t,m){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:m}));a.download=n;try{a.click()}catch(e){}}
+const C={pickMu:(el,d)=>{addMu[+d.d]=el.value},addFocus:(el,d)=>{if(!el.value)return;const t=plan().days[+d.d];t.focus=[...(t.focus||[]),el.value]},showFood:el=>{S.showFood=el.checked;const b=document.querySelector('nav button[data-k=food]');if(b)b.style.display=el.checked?'':'none'},pin:(el,d)=>{const z=Fd();z.pins=z.pins||{};if(el.value=='__auto')delete z.pins[d.k];else if(el.value)z.pins[d.k]=el.value},chk:(el,d)=>{Fd().checked[d.k]=el.checked},diet:el=>{Fd().diet=el.value},selPlan:el=>{S.planId=el.value},dname:(el,d)=>{plan().days[+d.d].name=el.value},dwd:(el,d)=>{plan().days[+d.d].wd=+el.value},
+ ef:(el,d)=>{plan().days[+d.d].ex[+d.e][d.f]=d.f=='reps'?el.value:+el.value},swapTo:(el,d)=>{if(!isNaN(el.value)&&el.value!=='Alternative wählen…'){plan().days[+d.d].ex[+d.e].id=+el.value;open=null}},
+ sf:(el,d)=>{S.active.ex[+d.e].sets_[+d.s][d.f]=el.value}};
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t)return;A[t.dataset.a](t.dataset);save();draw()});
+document.addEventListener('change',e=>{const t=e.target;if(t.id=='mf'){mf=t.value;draw();return}if(t.id=='pex'){pex=+t.value;draw();return}if(!t.dataset.c)return;C[t.dataset.c](t,t.dataset);save();if(['selPlan','swapTo','dwd'].includes(t.dataset.c)||['ef','chk','diet','pin','addFocus','pickMu'].includes(t.dataset.c))draw()});
+document.addEventListener('input',e=>{if(e.target.id=='q'){q=e.target.value;const p=e.target.selectionStart;draw();const n=$('q');n.focus();n.setSelectionRange(p,p)}});
+const NAV=[['dash','Start','🏠'],['plan','Plan','📋'],['train','Training','🏋️'],['db','Übungen','📖'],['cal','Kalender','📅'],['prog','Fortschritt','📈'],['food','Essen','🥗'],['prof','Profil','👤']];
+function draw(){const sy=scrollY;if(!S.profile&&V!='prof')V='prof';if(V=='food'&&S.showFood===false)V='dash';$('nav').style.display=S.profile?'flex':'none';$('nav').innerHTML=NAV.map(n=>`<button class="${V==n[0]?'on':''}" data-a="nav" data-k="${n[0]}" ${n[0]=='food'&&S.showFood===false?'style="display:none"':''}><i>${n[2]}</i>${n[1]}</button>`).join('');
+ $('app').innerHTML=(V=='prof'?R.setup:R[V])();scrollTo(0,sy)}
+draw();
+</script><script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script><script src="sync.js"></script>
+<script>if('serviceWorker' in navigator&&location.protocol!=='file:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))</script></body></html>
